@@ -13,17 +13,8 @@ public class Player : MonoBehaviour
 
 
     [SerializeField] Transform TartgetPoint, startPoint;
-    [SerializeField] bullet Bullet;
-    // [SerializeField] GameObject bullet0;
+    [SerializeField] bullet Bullet1, Bullet2;
 
-    // [SerializeField] int angle = 0;
-    // [SerializeField] float angle_rad = 0;
-    // [SerializeField] int trajectory = 100;
-    // [SerializeField] float Vo;
-    // [SerializeField] float config;
-    /// <summary>
-    /// //////////////////////////
-    /// 
 
     [Header(" curveParapol")]
     [SerializeField] AnimationCurve curveParabol;
@@ -36,7 +27,8 @@ public class Player : MonoBehaviour
     [SerializeField] float heightY;
     // [SerializeField] float time;
     [SerializeField] float numPJT;
-Vector3 mouse;
+    [SerializeField] SkillStat currentSkillStat;
+    Vector3 mouse;
     Rigidbody2D rig;
 
     private void Start()
@@ -48,23 +40,21 @@ Vector3 mouse;
     private void Update()
     {
 
-
-
-
-         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouse.z = 0;
         Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         rig.velocity = movement * moveSpeed;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            bullet pre = Instantiate(Bullet, transform.position, Quaternion.identity);
-            // StartCoroutine(pre.SpawnParabol(startPoint.transform.position, TartgetPoint.transform.position, pre.gameObject));
-            pre.init(startPoint.position, mouse, curveParabol, SkillStat.NormalParabol, duration, heightY);
+            currentSkillStat = SkillStat.NormalParabol;
+            bullet pre = Instantiate(Bullet1, transform.position, Quaternion.identity);
+            pre.init(startPoint.position, mouse, curveParabol, SkillStat.NormalParabol);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            currentSkillStat = SkillStat.KaisaParabol;
             StartCoroutine(SpawnBullets(mouse));
 
         }
@@ -74,8 +64,8 @@ Vector3 mouse;
     {
         for (int i = 0; i < numPJT; i++)
         {
-            bullet pre = Instantiate(Bullet, transform.position, Quaternion.identity);
-            pre.init(startPoint.position, mouse, curve, SkillStat.KaisaParabol, duration, heightY);
+            bullet pre = Instantiate(Bullet2, transform.position, Quaternion.identity);
+            pre.init(startPoint.position, mouse, curve, SkillStat.KaisaParabol);
 
             yield return new WaitForSeconds(0.1f); // Chờ 0.1 giây trước khi sinh viên đạn tiếp theo
         }
@@ -84,25 +74,41 @@ Vector3 mouse;
     private void OnDrawGizmos()
     {
 
+
+
+
+        if (currentSkillStat == SkillStat.NormalParabol)
+        {
+            DrawBulletPath(Bullet1);   
+        }
+           if (currentSkillStat == SkillStat.KaisaParabol)
+        {
+            DrawBulletPath(Bullet2); 
+        }
+
+    }
+
+private void DrawBulletPath(bullet bulletPrefab)
+{
+    if (bulletPrefab != null)
+    {
         Vector2 previousPoint = transform.position;
         float timeStep = 0.01f; // Adjust for smoother curves
         for (float t = 0; t <= duration; t += timeStep)
         {
-            // float t = i * config;
             float linearT = t / duration;
-            float heightT = curveParabol.Evaluate(linearT);
-            float height = Mathf.Lerp(0f, heightY, heightT);
+            float heightT = bulletPrefab.curve.Evaluate(linearT);
+            float height = bulletPrefab.heightY * heightT;
 
-            Vector2 currentPoint = Vector2.Lerp(transform.position, mouse, linearT) + new Vector2(0, height);
+            Vector2 currentPoint = Vector2.Lerp(startPoint.position, mouse, linearT) + new Vector2(0, height);
 
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.red; // Change color if needed
             Gizmos.DrawLine(previousPoint, currentPoint);
 
             previousPoint = currentPoint;
         }
     }
-
-
+}
 
 
     //     Vector2 start = transform.position; // Vị trí bắt đầu

@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     }
     [SerializeField] EnemyStat enemyStat;
     [SerializeField] Animator anim;
-    bool isAnimationTrigger = false;
+
     [SerializeField] LayerMask layer;
     [SerializeField] float radius = 1f;
 
@@ -22,53 +22,66 @@ public class Enemy : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         enemyStat = EnemyStat.Idle;
-        renderer.GetComponent<Renderer>();
-        materialPropertyBlock = new MaterialPropertyBlock();
+        renderer.GetComponent<SpriteRenderer>();
+        // materialPropertyBlock = new MaterialPropertyBlock();
 
     }
 
-    void ImpactAnim(){
-                // Đặt giá trị ban đầu
-        materialPropertyBlock.SetFloat("_ZoomUvAmount", 1);
-        renderer.SetPropertyBlock(materialPropertyBlock);
+    void ImpactAnim()
+    {
+
+        // materialPropertyBlock.SetFloat("_ZoomUvAmount", 1);
+        // renderer.SetPropertyBlock(materialPropertyBlock);
         // mate.DOFloat(1,"_ZoomUvAmount",2);
+        // renderer.material.DOFloat(1.5f,"_ZoomUvAmount",1f).SetEase(Ease.InBounce).SetLoops(-1);
+        renderer.material.DOFloat(-0.08f, "_OffsetUvY", .2f).SetEase(Ease.Unset).OnComplete(() =>
+        {
+            renderer.material.DOFloat(0, "_OffsetUvY", .2f).SetEase(Ease.Unset);
+        });
+        renderer.material.DOFloat(1, "_HitEffectBlend", .1f).OnComplete(() =>
+        {
+            renderer.material.DOFloat(0, "_HitEffectBlend", .1f);
+
+        }).SetLoops(2);
+        // transform.DOShakeScale(.5f, 1f, 10, 90f, true);
+
     }
     private void Update()
     {
 
 
-        DetectLayer(layer);
+        DetectLayer();
         switch (enemyStat)
         {
             case EnemyStat.Idle:
-                anim.SetBool("Idle", true);
-                anim.SetBool("Impact", false);
-
                 break;
             case EnemyStat.Impact:
-                anim.SetBool("Idle", false);
-                anim.SetBool("Impact", true);
-                if (isAnimationTrigger)
-                {
-                    isAnimationTrigger = false;
-                    enemyStat = EnemyStat.Idle;
-                }
+                ImpactAnim();
+                enemyStat = EnemyStat.Idle;
                 break;
             default:
                 break;
         }
 
     }
-    void DetectLayer(LayerMask layer)
+    void DetectLayer()
     {
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, radius, Vector2.zero, 0f, layer);
-
-        if (hit.collider != null)
+        // RaycastHit2D hit = Physics2D.CircleCast(transform.position, radius, Vector2.zero, 0f, layer);
+        Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, radius);
+        foreach (Collider2D collider in collider2D)
         {
-            // Destroy(hit.collider.gameObject);
-            enemyStat = EnemyStat.Impact;
+            if (collider.GetComponent<IDamageable>() != null)
+            {
 
+                collider.gameObject.SetActive(false);
+                collider.GetComponent<IDamageable>().TakeDamage();
+                TakeDamage();
+            }
         }
+    }
+    public void TakeDamage()
+    {
+        enemyStat = EnemyStat.Impact;
     }
     protected virtual void OnDrawGizmos()
     {
@@ -77,7 +90,6 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, radius);
 
     }
-
     // private void OnTriggerEnter2D(Collider2D other)
     // {
     //     if (other.gameObject.CompareTag("bullet"))
@@ -86,8 +98,5 @@ public class Enemy : MonoBehaviour
 
     //     }
     // }
-    public void AnimationTrigger()
-    {
-        isAnimationTrigger = true;
-    }
+
 }

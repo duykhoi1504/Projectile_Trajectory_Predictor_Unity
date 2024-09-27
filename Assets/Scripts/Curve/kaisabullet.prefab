@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3445332788986439117}
-  - component: {fileID: -8115638485903492037}
   - component: {fileID: 9208907363877684142}
+  - component: {fileID: -6589337348021792829}
   - component: {fileID: 2458839466829163108}
   m_Layer: 7
-  m_Name: bullet 1
+  m_Name: kaisabullet
   m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,25 +35,6 @@ Transform:
   - {fileID: 7801031380356569279}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8115638485903492037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815529295683988888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba5eaa8dbaa8ab74a9fd2090b5403975, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  start: {x: 0, y: 0}
-  target: {x: 0, y: 0}
-  startInput: {x: 0, y: 0}
-  targetInput: {x: 0, y: 0}
-  minNoise: {x: 0, y: -6}
-  maxNoise: {x: 0, y: 6}
-  skillStat: 1
 --- !u!61 &9208907363877684142
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -99,6 +80,63 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.98652506, y: 1.7687647}
   m_EdgeRadius: 0
+--- !u!114 &-6589337348021792829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4815529295683988888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3803ccca3cf2d84b8dccbdeee9a7483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.3647501
+      outSlope: 3.3647501
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.09312297
+    - serializedVersion: 3
+      time: 0.35794967
+      value: 0.50286543
+      inSlope: -0.58678627
+      outSlope: -0.58678627
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.72731954
+      value: -0.13965036
+      inSlope: -0.98260385
+      outSlope: -0.98260385
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 2
+  heightY: 5
+  skillStat: 1
 --- !u!96 &2458839466829163108
 TrailRenderer:
   serializedVersion: 3
@@ -172,7 +210,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.13333334, g: 0.52156866, b: 0.9176471, a: 1}
+      key0: {r: 1, g: 0, b: 0.4836378, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
