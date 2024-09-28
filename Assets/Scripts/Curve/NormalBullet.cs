@@ -30,7 +30,7 @@ public class NormalBullet : bullet
 
 
             Vector2 direction = ((Vector2)transform.position - previousPoint).normalized;
-            transform.up = Vector2.Lerp(transform.up, direction, 0.1f);
+            transform.up =  direction;
             // yield return null;
 
         }
@@ -39,23 +39,6 @@ public class NormalBullet : bullet
             Destroy(this.gameObject);
         }
     }
-    //  private void OnDrawGizmos() {
-    //     Vector2 previousPoint = transform.position;
-    //     float timeStep = 0.01f; // Adjust for smoother curves
-    //     for (float t = 0; t <= duration; t += timeStep)
-    //     {
-    //         // float t = i * config;
-    //         float linearT = t / duration;
-    //         float heightT = curve.Evaluate(linearT);
-    //         float height = Mathf.Lerp(0f, heightY, heightT);
 
-    //         Vector2 currentPoint = Vector2.Lerp(start, target, linearT) + new Vector2(0, height);
-
-    //         Gizmos.color = Color.red;
-    //         Gizmos.DrawLine(previousPoint, currentPoint);
-
-    //         previousPoint = currentPoint;
-    //     }
-    // }
 
 }

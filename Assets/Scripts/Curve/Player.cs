@@ -15,17 +15,6 @@ public class Player : MonoBehaviour
     [SerializeField] Transform TartgetPoint, startPoint;
     [SerializeField] bullet Bullet1, Bullet2;
 
-
-    [Header(" curveParapol")]
-    [SerializeField] AnimationCurve curveParabol;
-
-    /// </summary>
-    [Header("Kaisa Q by curve")]
-    [SerializeField] AnimationCurve curve;
-
-    [SerializeField] float duration;
-    [SerializeField] float heightY;
-    // [SerializeField] float time;
     [SerializeField] float numPJT;
     [SerializeField] SkillStat currentSkillStat;
     Vector3 mouse;
@@ -49,7 +38,7 @@ public class Player : MonoBehaviour
         {
             currentSkillStat = SkillStat.NormalParabol;
             bullet pre = Instantiate(Bullet1, transform.position, Quaternion.identity);
-            pre.init(startPoint.position, mouse, curveParabol, SkillStat.NormalParabol);
+            pre.init(startPoint.position, mouse, SkillStat.NormalParabol);
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -65,7 +54,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < numPJT; i++)
         {
             bullet pre = Instantiate(Bullet2, transform.position, Quaternion.identity);
-            pre.init(startPoint.position, mouse, curve, SkillStat.KaisaParabol);
+            pre.init(startPoint.position, mouse, SkillStat.KaisaParabol);
 
             yield return new WaitForSeconds(0.1f); // Chờ 0.1 giây trước khi sinh viên đạn tiếp theo
         }
@@ -79,36 +68,36 @@ public class Player : MonoBehaviour
 
         if (currentSkillStat == SkillStat.NormalParabol)
         {
-            DrawBulletPath(Bullet1);   
+            DrawBulletPath(Bullet1);
         }
-           if (currentSkillStat == SkillStat.KaisaParabol)
+        if (currentSkillStat == SkillStat.KaisaParabol)
         {
-            DrawBulletPath(Bullet2); 
+            DrawBulletPath(Bullet2);
         }
 
     }
 
-private void DrawBulletPath(bullet bulletPrefab)
-{
-    if (bulletPrefab != null)
+    private void DrawBulletPath(bullet bulletPrefab)
     {
-        Vector2 previousPoint = transform.position;
-        float timeStep = 0.01f; // Adjust for smoother curves
-        for (float t = 0; t <= duration; t += timeStep)
+        if (bulletPrefab != null)
         {
-            float linearT = t / duration;
-            float heightT = bulletPrefab.curve.Evaluate(linearT);
-            float height = bulletPrefab.heightY * heightT;
+            Vector2 previousPoint = transform.position;
+            float timeStep = 0.01f; // Adjust for smoother curves
+            for (float t = 0; t <= bulletPrefab.duration; t += timeStep)
+            {
+                float linearT = t / bulletPrefab.duration;
+                float heightT = bulletPrefab.curve.Evaluate(linearT);
+                float height = bulletPrefab.heightY * heightT;
 
-            Vector2 currentPoint = Vector2.Lerp(startPoint.position, mouse, linearT) + new Vector2(0, height);
+                Vector2 currentPoint = Vector2.Lerp(startPoint.position, mouse, linearT) + new Vector2(0, height);
 
-            Gizmos.color = Color.red; // Change color if needed
-            Gizmos.DrawLine(previousPoint, currentPoint);
+                Gizmos.color = Color.red; // Change color if needed
+                Gizmos.DrawLine(previousPoint, currentPoint);
 
-            previousPoint = currentPoint;
+                previousPoint = currentPoint;
+            }
         }
     }
-}
 
 
     //     Vector2 start = transform.position; // Vị trí bắt đầu

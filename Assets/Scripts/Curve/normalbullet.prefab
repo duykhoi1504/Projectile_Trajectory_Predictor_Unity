@@ -72,7 +72,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   duration: 1
-  heightY: 12.47
+  heightY: 5
   skillStat: 0
 --- !u!61 &9208907363877684142
 BoxCollider2D:

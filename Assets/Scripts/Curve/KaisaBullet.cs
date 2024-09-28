@@ -10,7 +10,8 @@ public class KaisaBullet : bullet
     protected override void Start()
     {
         base.Start();
-          noiseY = Random.Range(-heightY, heightY);
+          noiseY = Random.Range(-1, 2);
+          Debug.Log(noiseY);
     }
     private void Update()
     {
@@ -31,7 +32,7 @@ public class KaisaBullet : bullet
             transform.position = Vector2.Lerp(start, end, linearT) + new Vector2(0, heightNoise);
 
             Vector2 direction = ((Vector2)transform.position - previousPoint).normalized;
-            transform.up = Vector2.Lerp(transform.up, direction, 0.5f);
+            transform.up = direction;
         }
         else
         {

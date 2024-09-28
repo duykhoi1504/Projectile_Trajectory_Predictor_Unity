@@ -29,10 +29,10 @@ public class Enemy : MonoBehaviour
 
     void ImpactAnim()
     {
-
         // materialPropertyBlock.SetFloat("_ZoomUvAmount", 1);
         // renderer.SetPropertyBlock(materialPropertyBlock);
         // mate.DOFloat(1,"_ZoomUvAmount",2);
+     
         // renderer.material.DOFloat(1.5f,"_ZoomUvAmount",1f).SetEase(Ease.InBounce).SetLoops(-1);
         renderer.material.DOFloat(-0.08f, "_OffsetUvY", .2f).SetEase(Ease.Unset).OnComplete(() =>
         {
@@ -67,6 +67,7 @@ public class Enemy : MonoBehaviour
     void DetectLayer()
     {
         // RaycastHit2D hit = Physics2D.CircleCast(transform.position, radius, Vector2.zero, 0f, layer);
+        //cach 1 dung collider
         Collider2D[] collider2D = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (Collider2D collider in collider2D)
         {
@@ -75,6 +76,18 @@ public class Enemy : MonoBehaviour
 
                 collider.gameObject.SetActive(false);
                 collider.GetComponent<IDamageable>().TakeDamage();
+                TakeDamage();
+            }
+        }
+
+
+        //cach 2 khong dung collider
+        bullet[] bullets=FindObjectsOfType<bullet>();
+        foreach(bullet bullet in bullets){
+            float distance=Vector2.Distance(bullet.transform.position, transform.position);
+            if(distance<=radius){
+                 Destroy(bullet.gameObject);
+        //         collider.GetComponent<IDamageable>().TakeDamage();
                 TakeDamage();
             }
         }

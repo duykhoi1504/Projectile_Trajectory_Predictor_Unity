@@ -105,36 +105,36 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.09312297
     - serializedVersion: 3
-      time: 0.35794967
-      value: 0.50286543
-      inSlope: -0.58678627
-      outSlope: -0.58678627
+      time: 0.34673446
+      value: 0.4899565
+      inSlope: 0.046732184
+      outSlope: 0.046732184
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.71677023
     - serializedVersion: 3
-      time: 0.72731954
-      value: -0.13965036
-      inSlope: -0.98260385
-      outSlope: -0.98260385
+      time: 0.6768247
+      value: -0.096600324
+      inSlope: -0.011106198
+      outSlope: -0.011106198
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 1
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.2883034
+      outSlope: 0.2883034
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.5550413
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  duration: 2
+  duration: 0
   heightY: 5
   skillStat: 1
 --- !u!96 &2458839466829163108

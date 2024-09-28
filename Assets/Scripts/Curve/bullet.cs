@@ -30,16 +30,16 @@ public abstract class bullet : MonoBehaviour, IDamageable
     // [SerializeField] Vector2 minNoise, maxNoise;
     [SerializeField] protected SkillStat skillStat;
 
-    public void init(Vector2 start, Vector2 _target, AnimationCurve _curve, SkillStat _skillStat)
+    public void init(Vector2 start, Vector2 _target, SkillStat _skillStat)
     {
         startInput = start;
         targetInput = _target;
-        curve = _curve;
+        // curve = _curve;
         skillStat = _skillStat;
         // duration = _duration;
         // heightY = _height;
         //fix lỗi ko đúng dir khi mới sinh ra
-        transform.up = (targetInput - startInput).normalized;
+        // transform.up = (targetInput - startInput).normalized;
     }
 
     protected virtual void Start()
@@ -56,7 +56,7 @@ public abstract class bullet : MonoBehaviour, IDamageable
 
         if (duration <= 0.01f)
         {
-            duration = 0.01f;
+            duration = 0.02f;
             // duration = Mathf.Epsilon; // Thiết lập giá trị nhỏ nhất
         }
 
