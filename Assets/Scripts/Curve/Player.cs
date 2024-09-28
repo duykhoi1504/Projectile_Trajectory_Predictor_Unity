@@ -19,85 +19,104 @@ public class Player : MonoBehaviour
     [SerializeField] SkillStat currentSkillStat;
     Vector3 mouse;
     Rigidbody2D rig;
-
+    [SerializeField] bool isShoot = true;
     private void Start()
     {
 
         rig = GetComponent<Rigidbody2D>();
+
+
+
     }
 
     private void Update()
     {
-
         mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouse.z = 0;
+
+
         Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         rig.velocity = movement * moveSpeed;
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             currentSkillStat = SkillStat.NormalParabol;
+            isShoot = false;
             bullet pre = Instantiate(Bullet1, transform.position, Quaternion.identity);
-            pre.init(startPoint.position, mouse, SkillStat.NormalParabol);
+            pre.init(startPoint.position, mouse);
+        }
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            ; isShoot = true;
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             currentSkillStat = SkillStat.KaisaParabol;
-            StartCoroutine(SpawnBullets(mouse));
+            isShoot = false;
+            for (int i = 0; i < numPJT; i++)
+            {
+                bullet pre = Instantiate(Bullet2, transform.position, Quaternion.identity);
+                pre.init(startPoint.position, mouse);
 
+
+            }
+
+        }
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            ; isShoot = true;
         }
     }
     //q kaisa
-    private IEnumerator SpawnBullets(Vector3 mouse)
-    {
-        for (int i = 0; i < numPJT; i++)
-        {
-            bullet pre = Instantiate(Bullet2, transform.position, Quaternion.identity);
-            pre.init(startPoint.position, mouse, SkillStat.KaisaParabol);
+    // private IEnumerator SpawnBullets(Vector3 mouse)
+    // {
+    //     for (int i = 0; i < numPJT; i++)
+    //     {
+    //         bullet pre = Instantiate(Bullet2, transform.position, Quaternion.identity);
+    //         pre.init(startPoint.position, mouse);
 
-            yield return new WaitForSeconds(0.1f); // Chờ 0.1 giây trước khi sinh viên đạn tiếp theo
-        }
-    }
+    //         yield return new WaitForSeconds(0.1f); // Chờ 0.1 giây trước khi sinh viên đạn tiếp theo
+    //     }
+    // }
     // [SerializeField] float config;
     private void OnDrawGizmos()
     {
-
-
-
-
+        if (!isShoot) return;
         if (currentSkillStat == SkillStat.NormalParabol)
         {
-            DrawBulletPath(Bullet1);
+            Bullet1.DrawGizmos(this.transform.position, mouse);
         }
         if (currentSkillStat == SkillStat.KaisaParabol)
         {
-            DrawBulletPath(Bullet2);
-        }
+            Bullet2.GetComponent<KaisaBullet>().DrawGizmos(this.transform.position, mouse); ;
 
-    }
-
-    private void DrawBulletPath(bullet bulletPrefab)
-    {
-        if (bulletPrefab != null)
-        {
-            Vector2 previousPoint = transform.position;
-            float timeStep = 0.01f; // Adjust for smoother curves
-            for (float t = 0; t <= bulletPrefab.duration; t += timeStep)
-            {
-                float linearT = t / bulletPrefab.duration;
-                float heightT = bulletPrefab.curve.Evaluate(linearT);
-                float height = bulletPrefab.heightY * heightT;
-
-                Vector2 currentPoint = Vector2.Lerp(startPoint.position, mouse, linearT) + new Vector2(0, height);
-
-                Gizmos.color = Color.red; // Change color if needed
-                Gizmos.DrawLine(previousPoint, currentPoint);
-
-                previousPoint = currentPoint;
-            }
         }
     }
+
+    // private void DrawBulletPath(bullet bulletPrefab)
+    // {
+
+
+    //     if (bulletPrefab != null)
+    //     {
+    //         Vector2 previousPoint = transform.position;
+    //         float timeStep = 0.01f; // Adjust for smoother curves
+    //         for (float t = 0; t <= bulletPrefab.duration; t += timeStep)
+    //         {
+    //             float linearT = t / bulletPrefab.duration;
+    //             float heightT = bulletPrefab.curve.Evaluate(linearT);
+    //             float height = bulletPrefab.heightY * heightT;
+
+    //             Vector2 currentPoint = Vector2.Lerp(startPoint.position, mouse, linearT) + new Vector2(0, height);
+
+    //             Gizmos.color = Color.red; // Change color if needed
+    //             Gizmos.DrawLine(previousPoint, currentPoint);
+
+    //             previousPoint = currentPoint;
+    //         }
+    //     }
+    // }
 
 
     //     Vector2 start = transform.position; // Vị trí bắt đầu
@@ -156,5 +175,6 @@ public class Player : MonoBehaviour
     //     }
 
     // }
+
 
 }

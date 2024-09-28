@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class NormalBullet : bullet
 {
-    private void Update()
+   protected   void Update()
     {
+          RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1f,layer);
+        if(hit.collider!=null){
+            hit.collider.gameObject.GetComponent<Enemy>().TakeDamage();
+            Debug.Log("25555"+hit.collider.gameObject.name);
+        }
         Apply(start, target);
     }
     public void Apply(Vector2 start, Vector2 end)
@@ -39,6 +44,7 @@ public class NormalBullet : bullet
             Destroy(this.gameObject);
         }
     }
+
 
 
 }

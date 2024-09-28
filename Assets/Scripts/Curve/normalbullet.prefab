@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 544762132442675466}
   - component: {fileID: 9208907363877684142}
   - component: {fileID: 2458839466829163108}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: normalbullet
-  m_TagString: bullet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,9 +71,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  duration: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 64
+  duration: 0.69
   heightY: 5
-  skillStat: 0
 --- !u!61 &9208907363877684142
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -103,7 +105,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0028341264, y: 0.27443564}
@@ -242,8 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7801031380356569279}
   - component: {fileID: 8528946110240651804}
-  - component: {fileID: 7102039038791007765}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: ew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +286,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4e2044c2248c87144994598b4dd9b1e3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -317,19 +318,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7102039038791007765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5992836405180434300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shaderTypes: 0
-  normalStrength: 5
-  normalSmoothing: 1
-  computingNormal: 0
