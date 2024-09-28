@@ -81,16 +81,16 @@ public class Enemy : MonoBehaviour
         }
 
 
-        //cach 2 khong dung collider
-        bullet[] bullets=FindObjectsOfType<bullet>();
-        foreach(bullet bullet in bullets){
-            float distance=Vector2.Distance(bullet.transform.position, transform.position);
-            if(distance<=radius){
-                 Destroy(bullet.gameObject);
-        //         collider.GetComponent<IDamageable>().TakeDamage();
-                TakeDamage();
-            }
-        }
+        // //cach 2 khong dung collider
+        // bullet[] bullets=FindObjectsOfType<bullet>();
+        // foreach(bullet bullet in bullets){
+        //     float distance=Vector2.Distance(bullet.transform.position, transform.position);
+        //     if(distance<=radius){
+        //          Destroy(bullet.gameObject);
+        // //         collider.GetComponent<IDamageable>().TakeDamage();
+        //         TakeDamage();
+        //     }
+        // }
     }
     public void TakeDamage()
     {
