@@ -4,53 +4,21 @@ using UnityEngine;
 using DG.Tweening;
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private float radius = 1f;
+    [SerializeField] private bool isTakeDamage = false;
+    private EnemyAnim enemyAnim;
 
-    public enum EnemyStat
-    {
-        Idle,
-        Impact
-    }
-    [SerializeField] EnemyStat enemyStat;
-
-
-
-    [SerializeField] float radius = 1f;
-
-    [SerializeField] SpriteRenderer renderer;
-    [SerializeField] MaterialPropertyBlock materialPropertyBlock;
-    [SerializeField] public bool isTakeDamage = false;
     private void Start()
     {
-
-        enemyStat = EnemyStat.Idle;
-        renderer.GetComponent<SpriteRenderer>();
-        // materialPropertyBlock = new MaterialPropertyBlock();
-
-    }
-
-    public void ImpactAnim()
-    {
-        // materialPropertyBlock.SetFloat("_ZoomUvAmount", 1);
-        // renderer.SetPropertyBlock(materialPropertyBlock);
-        // mate.DOFloat(1,"_ZoomUvAmount",2);
-        if (!isTakeDamage) return;
-        isTakeDamage = false;
-        // renderer.material.DOFloat(1.5f,"_ZoomUvAmount",1f).SetEase(Ease.InBounce).SetLoops(-1);
-        renderer.material.DOFloat(-0.08f, "_OffsetUvY", .2f).SetEase(Ease.Unset).OnComplete(() =>
-        {
-            renderer.material.DOFloat(0, "_OffsetUvY", .2f).SetEase(Ease.Unset);
-        });
-        renderer.material.DOFloat(1, "_HitEffectBlend", .1f).OnComplete(() =>
-        {
-            renderer.material.DOFloat(0, "_HitEffectBlend", .1f);
-
-        }).SetLoops(2);
-
+        enemyAnim = GetComponentInChildren<EnemyAnim>();
     }
     private void Update()
     {
-        ImpactAnim();
+        if (!isTakeDamage) return;
+        isTakeDamage = false;
+        enemyAnim.ImpactAnim();
     }
+
     public void TakeDamage()
     {
         Debug.Log("isTakeDamage");
@@ -63,13 +31,5 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, radius);
 
     }
-    // private void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if (other.gameObject.CompareTag("bullet"))
-    //     {
-    //         enemyStat = EnemyStat.Impact;
-
-    //     }
-    // }
 
 }

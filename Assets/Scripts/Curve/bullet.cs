@@ -17,21 +17,24 @@ public enum SkillStat
 public abstract class bullet : MonoBehaviour
 {
 
-    protected Rigidbody2D rig;
+    Color color;
     protected Vector2 start, target;
     protected Vector2 startInput, targetInput;
-    public AnimationCurve curve;
-    public LayerMask layer;
+    [SerializeField] protected AnimationCurve curve;
+    [SerializeField] protected LayerMask layer;
 
     [SerializeField] public float duration, heightY;
     protected float time;
+    protected TrailRenderer trail;
+    protected SpriteRenderer sprite;
+    protected Collider2D col;
 
     // [SerializeField] Vector2 minNoise, maxNoise;
     // [SerializeField] protected SkillStat skillStat;
 
-    public void init(Vector2 start, Vector2 _target)
+    public void init(Vector2 _start, Vector2 _target)
     {
-        startInput = start;
+        startInput = _start;
         targetInput = _target;
         // curve = _curve;
         // skillStat = _skillStat;
@@ -44,22 +47,33 @@ public abstract class bullet : MonoBehaviour
 
     protected virtual void Start()
     {
-
+        col = GetComponent<Collider2D>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        trail = GetComponentInChildren<TrailRenderer>();
         time = 0;
         start = startInput;
         target = targetInput;
+        RandomColorTrail();
         // noise = new Vector2(Random.Range(minNoise.x, maxNoise.x), Random.Range(minNoise.y, maxNoise.y));
         // minNoise=new vec
-        if (duration <= 0.01f)
+
+    }
+
+    protected virtual void Update()
+    {
+        if (duration <= 0)
         {
-            duration = 0.02f;
-            // duration = Mathf.Epsilon; // Thiết lập giá trị nhỏ nhất
+            this.transform.position = target;
+        }
+        if (!col.enabled) return;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.5f, layer);
+        if (hit.collider != null)
+        {
+            hit.collider.gameObject.GetComponent<Enemy>().TakeDamage();
+            Debug.Log("25555" + hit.collider.gameObject.name);
         }
     }
 
-
-
- 
     public virtual void DrawGizmos(Vector2 start, Vector2 target)
     {
         Vector2 previousPoint = start;
@@ -80,6 +94,21 @@ public abstract class bullet : MonoBehaviour
 
     }
 
-
-
+    protected void RandomColorTrail()
+    {
+        color = Random.ColorHSV();
+        trail.startColor = color;
+        trail.endColor = color;
+    }
+    protected void Destruct()
+    {
+        StartCoroutine(IEDestruct());
+    }
+    IEnumerator IEDestruct()
+    {
+        sprite.enabled = false;
+        col.enabled = false;
+        yield return new WaitForSeconds(2f);
+        this.gameObject.SetActive(false);
+    }
 }

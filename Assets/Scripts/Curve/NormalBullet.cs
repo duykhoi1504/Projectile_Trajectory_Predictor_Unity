@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class NormalBullet : bullet
 {
-   protected   void Update()
+    protected override void Update()
     {
-          RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1f,layer);
-        if(hit.collider!=null){
-            hit.collider.gameObject.GetComponent<Enemy>().TakeDamage();
-            Debug.Log("25555"+hit.collider.gameObject.name);
-        }
+        base.Update();
         Apply(start, target);
     }
     public void Apply(Vector2 start, Vector2 end)
@@ -22,7 +18,6 @@ public class NormalBullet : bullet
             float linearT = time / duration;// 0 to 1
             float heightT = curve.Evaluate(linearT);//value from curve
             float height = Mathf.Lerp(0f, heightY, heightT);
-            // float v=Vector2.Distance(start, end)/duration;
 
             transform.position = Vector2.Lerp(start, end, linearT) + new Vector2(0, height);
             //get dir
@@ -35,16 +30,16 @@ public class NormalBullet : bullet
 
 
             Vector2 direction = ((Vector2)transform.position - previousPoint).normalized;
-            transform.up =  direction;
+            transform.up = direction;
             // yield return null;
 
         }
         else
         {
-            Destroy(this.gameObject);
+             Destruct();
         }
     }
 
 
-
+    
 }
