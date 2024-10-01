@@ -6,7 +6,7 @@ using UnityEngine;
 public class KaisaBullet : bullet
 {
 
-    float noiseY;
+    private float noiseY;
 
     public int seed; // Giá trị seed
     protected override void Start()
@@ -15,7 +15,7 @@ public class KaisaBullet : bullet
         Random.InitState(seed);
         float rand = Random.Range(-10, 11);
 
-        Debug.Log(rand + "eandom");
+        // Debug.Log(rand + "random");
         noiseY = rand;
     }
 
@@ -25,20 +25,20 @@ public class KaisaBullet : bullet
         base.Update();
         Apply(start, target);
     }
-    public void Apply(Vector2 start, Vector2 end)
+    public void Apply(Vector3 start, Vector3 end)
     {
-        Vector2 previousPoint = transform.position;
+        Vector3 previousPoint = transform.position;
 
         if (time < duration)
         {
             time += Time.deltaTime;
             float linearT = time / duration;
             float heightT = curve.Evaluate(linearT);
-            float heightNoise = heightT * heightY * noiseY;
+            float height = heightT * heightY * noiseY;
 
-            transform.position = Vector2.Lerp(start, end, linearT) + new Vector2(0, heightNoise);
+            transform.position = Vector3.Lerp(start, end, linearT) + new Vector3(0, height,0);
 
-            Vector2 direction = ((Vector2)transform.position - previousPoint).normalized;
+            Vector3 direction = (transform.position - previousPoint).normalized;
             transform.up = direction;
         }
         else
@@ -48,12 +48,12 @@ public class KaisaBullet : bullet
         }
     }
 
-    public override void DrawGizmos(Vector2 start, Vector2 target)
+    public override void DrawGizmos(Vector3 start, Vector3 target)
     {
 
         Random.InitState(seed);
         float noise = Random.Range(-10, 11);
-        Vector2 previousPoint = start;
+        Vector3 previousPoint = start;
         float timeStep = 0.01f; // Adjust for smoother curves
         for (float t = 0; t <= duration; t += timeStep)
         {
@@ -61,7 +61,7 @@ public class KaisaBullet : bullet
             float heightT = curve.Evaluate(linearT);
             float height = heightY * heightT * noise;
 
-            Vector2 currentPoint = Vector2.Lerp(start, target, linearT) + new Vector2(0, height);
+            Vector3 currentPoint = Vector3.Lerp(start, target, linearT) + new Vector3(0, height,0);
 
             Gizmos.color = Color.yellow; // Change color if needed
             Gizmos.DrawLine(previousPoint, currentPoint);

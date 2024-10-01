@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float radius = 1f;
+    // [SerializeField] private float radius = 1f;
     [SerializeField] private bool isTakeDamage = false;
     private EnemyAnim enemyAnim;
 
@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     {
         if (!isTakeDamage) return;
         isTakeDamage = false;
+        if (enemyAnim == null) return;
         enemyAnim.ImpactAnim();
     }
 
@@ -24,12 +25,10 @@ public class Enemy : MonoBehaviour
         Debug.Log("isTakeDamage");
         isTakeDamage = true;
     }
-    protected virtual void OnDrawGizmos()
-    {
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radius);
-
-    }
+    // protected virtual void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, radius);
+    // }
 
 }

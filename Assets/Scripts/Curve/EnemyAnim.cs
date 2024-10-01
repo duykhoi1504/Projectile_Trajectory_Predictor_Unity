@@ -25,15 +25,19 @@ public class EnemyAnim : MonoBehaviour
                .SetEase(Ease.Unset)
                .OnComplete(() =>
                {
-                   DOTween.To(() => GetFloatProperty(CONSTANTSHADER.offsetUvYID),
+                    DOTween.To(() => GetFloatProperty(CONSTANTSHADER.offsetUvYID),
                               x => SetFloatProperty(CONSTANTSHADER.offsetUvYID, x),
                               0, 0.2f)
                           .SetEase(Ease.Unset);
                });
+
+
+
         // Tạo hiệu ứng hit effect
         DOTween.To(() => GetFloatProperty(CONSTANTSHADER.hitEffectBlendID),
-                x => SetFloatProperty(CONSTANTSHADER.hitEffectBlendID, x),
-                1f, .1f).OnComplete(() =>
+                    x => SetFloatProperty(CONSTANTSHADER.hitEffectBlendID, x),
+                    1f, .1f)
+                .OnComplete(() =>
                 {
                     DOTween.To(() => GetFloatProperty(CONSTANTSHADER.hitEffectBlendID),
                     x => SetFloatProperty(CONSTANTSHADER.hitEffectBlendID, x),

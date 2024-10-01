@@ -17,12 +17,11 @@ public enum SkillStat
 public abstract class bullet : MonoBehaviour
 {
 
-    Color color;
-    protected Vector2 start, target;
-    protected Vector2 startInput, targetInput;
+    private Color color;
+    protected Vector3 start, target;
+    // protected Vector2 startInput, targetInput;
     [SerializeField] protected AnimationCurve curve;
-    [SerializeField] protected LayerMask layer;
-
+    // [SerializeField] protected LayerMask layer;
     [SerializeField] public float duration, heightY;
     protected float time;
     protected TrailRenderer trail;
@@ -32,30 +31,23 @@ public abstract class bullet : MonoBehaviour
     // [SerializeField] Vector2 minNoise, maxNoise;
     // [SerializeField] protected SkillStat skillStat;
 
-    public void init(Vector2 _start, Vector2 _target)
+
+    public void init(Vector3 _start, Vector3 _target)
     {
-        startInput = _start;
-        targetInput = _target;
-        // curve = _curve;
-        // skillStat = _skillStat;
-        // duration = _duration;
-        // heightY = _height;
-        //fix lỗi ko đúng dir khi mới sinh ra
-        // transform.up = (targetInput - startInput).normalized;
+        start = _start;
+        target = _target;
     }
 
 
     protected virtual void Start()
     {
+   
         col = GetComponent<Collider2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
         trail = GetComponentInChildren<TrailRenderer>();
         time = 0;
-        start = startInput;
-        target = targetInput;
         RandomColorTrail();
-        // noise = new Vector2(Random.Range(minNoise.x, maxNoise.x), Random.Range(minNoise.y, maxNoise.y));
-        // minNoise=new vec
+
 
     }
 
@@ -66,17 +58,20 @@ public abstract class bullet : MonoBehaviour
             this.transform.position = target;
         }
         if (!col.enabled) return;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.5f, layer);
-        if (hit.collider != null)
-        {
-            hit.collider.gameObject.GetComponent<Enemy>().TakeDamage();
-            Debug.Log("25555" + hit.collider.gameObject.name);
-        }
+
+        
+        // RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.5f, layer);
+        // if (hit.collider != null)
+        // {
+
+        //     hit.collider.gameObject.GetComponent<Enemy>().TakeDamage();
+        //     Debug.Log("25555" + hit.collider.gameObject.name);
+        // }
     }
 
-    public virtual void DrawGizmos(Vector2 start, Vector2 target)
+    public virtual void DrawGizmos(Vector3 start, Vector3 target)
     {
-        Vector2 previousPoint = start;
+        Vector3 previousPoint = start;
         float timeStep = 0.01f; // Adjust for smoother curves
         for (float t = 0; t <= duration; t += timeStep)
         {
@@ -84,7 +79,7 @@ public abstract class bullet : MonoBehaviour
             float heightT = curve.Evaluate(linearT);
             float height = heightY * heightT;
 
-            Vector2 currentPoint = Vector2.Lerp(start, target, linearT) + new Vector2(0, height);
+            Vector3 currentPoint = Vector3.Lerp(start, target, linearT) + new Vector3(0, height,0);
 
             Gizmos.color = Color.green; // Change color if needed
             Gizmos.DrawLine(previousPoint, currentPoint);
@@ -102,6 +97,7 @@ public abstract class bullet : MonoBehaviour
     }
     protected void Destruct()
     {
+        Debug.Log("BOOM, GET PLAYERIMPACT");
         StartCoroutine(IEDestruct());
     }
     IEnumerator IEDestruct()

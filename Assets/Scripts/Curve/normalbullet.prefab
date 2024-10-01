@@ -71,9 +71,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  layer:
-    serializedVersion: 2
-    m_Bits: 64
   duration: 1
   heightY: 6.67
 --- !u!61 &9208907363877684142
