@@ -1,37 +1,19 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using Unity.Mathematics;
-using DG.Tweening;
-
 using Random = UnityEngine.Random;
-using UnityEngine.Events;
-using Unity.VisualScripting;
 
-public enum SkillStat
-{
-    NormalParabol,
-    KaisaParabol,
-}
-public abstract class bullet : MonoBehaviour
+public abstract class Bullet : MonoBehaviour
 {
 
     private Color color;
     protected Vector3 start, target;
-    // protected Vector2 startInput, targetInput;
     [SerializeField] protected AnimationCurve curve;
-    // [SerializeField] protected LayerMask layer;
     [SerializeField] public float duration, heightY;
     protected float time;
     protected TrailRenderer trail;
     protected SpriteRenderer sprite;
     protected Collider2D col;
-
-    // [SerializeField] Vector2 minNoise, maxNoise;
-    // [SerializeField] protected SkillStat skillStat;
-
-
+    
     public void init(Vector3 _start, Vector3 _target)
     {
         start = _start;
@@ -59,14 +41,6 @@ public abstract class bullet : MonoBehaviour
         }
         if (!col.enabled) return;
 
-        
-        // RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.5f, layer);
-        // if (hit.collider != null)
-        // {
-
-        //     hit.collider.gameObject.GetComponent<Enemy>().TakeDamage();
-        //     Debug.Log("25555" + hit.collider.gameObject.name);
-        // }
     }
 
     public virtual void DrawGizmos(Vector3 start, Vector3 target)
@@ -100,7 +74,7 @@ public abstract class bullet : MonoBehaviour
         Debug.Log("BOOM, GET PLAYERIMPACT");
         StartCoroutine(IEDestruct());
     }
-    IEnumerator IEDestruct()
+    private IEnumerator IEDestruct()
     {
         sprite.enabled = false;
         col.enabled = false;

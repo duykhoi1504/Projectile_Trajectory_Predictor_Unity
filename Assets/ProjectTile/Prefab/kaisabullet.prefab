@@ -236,7 +236,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   duration: 1
   heightY: 2
-  seed: -2
+  seed: 5
 --- !u!61 &3468155800403191242
 BoxCollider2D:
   m_ObjectHideFlags: 0

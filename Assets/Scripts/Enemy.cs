@@ -6,11 +6,11 @@ public class Enemy : MonoBehaviour
 {
     // [SerializeField] private float radius = 1f;
     [SerializeField] private bool isTakeDamage = false;
-    private EnemyAnim enemyAnim;
+    private AnimMaterial enemyAnim;
 
     private void Start()
     {
-        enemyAnim = GetComponentInChildren<EnemyAnim>();
+        enemyAnim = GetComponentInChildren<AnimMaterial>();
     }
     private void Update()
     {

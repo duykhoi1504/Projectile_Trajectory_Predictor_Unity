@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class EnemyAnim : MonoBehaviour
+public class AnimMaterial : MonoBehaviour
 {
     [SerializeField] SpriteRenderer renderer;
     [SerializeField] MaterialPropertyBlock materialPropertyBlock;

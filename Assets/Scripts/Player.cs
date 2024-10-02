@@ -13,10 +13,10 @@ public class Player : MonoBehaviour
 
 
     [SerializeField] Transform tartgetPoint, startPoint;
-    [SerializeField] bullet Bullet1, Bullet2;
+    [SerializeField] Bullet Bullet1, Bullet2;
 
 
-    [SerializeField] SkillStat currentSkillStat;
+    [SerializeField] BulletType currentSkillStat;
     // Vector3 mouse;
     Rigidbody2D rig;
     [SerializeField] bool canDraw = true;
@@ -49,20 +49,20 @@ public class Player : MonoBehaviour
         //skill
         if (Input.GetKeyDown(KeyCode.E))
         {
-            currentSkillStat = SkillStat.NormalParabol;
+            currentSkillStat = BulletType.NormalParabol;
             StartCoroutine(DelayLine(Bullet1.duration));
             NormalBullet pre = Instantiate(Bullet1, transform.position, transform.rotation) as NormalBullet;
             pre.init(startPoint.position, tartgetPoint.position);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            currentSkillStat = SkillStat.KaisaParabol;
+            currentSkillStat = BulletType.KaisaParabol;
             StartCoroutine(DelayLine(Bullet2.duration));
             for (int i = 0; i < seedPJTArray.Length; i++)
             {
                 KaisaBullet pre = Instantiate(Bullet2, transform.position, transform.rotation) as KaisaBullet;
                 pre.init(startPoint.position, tartgetPoint.position);
-                pre.seed = seedPJTArray[i];
+                pre.Seed = seedPJTArray[i];
 
             }
 
@@ -79,16 +79,16 @@ public class Player : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (!canDraw) return;
-        if (currentSkillStat == SkillStat.NormalParabol)
+        if (currentSkillStat == BulletType.NormalParabol)
         {
             Bullet1.DrawGizmos(this.transform.position, tartgetPoint.position);
         }
-        if (currentSkillStat == SkillStat.KaisaParabol)
+        if (currentSkillStat == BulletType.KaisaParabol)
         {
             for (int i = 0; i < seedPJTArray.Length; i++)
             {
                 Bullet2.GetComponent<KaisaBullet>().DrawGizmos(this.transform.position, tartgetPoint.position);
-                Bullet2.GetComponent<KaisaBullet>().seed = seedPJTArray[i];
+                Bullet2.GetComponent<KaisaBullet>().Seed = seedPJTArray[i];
             }
 
         }

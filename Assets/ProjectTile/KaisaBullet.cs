@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class KaisaBullet : bullet
+public class KaisaBullet : Bullet
 {
 
     private float noiseY;
 
-    public int seed; // Giá trị seed
+    [SerializeField]private int seed; // Giá trị seed
+
+    public int Seed { get => seed; set => seed = value; }
+
     protected override void Start()
     {
+
         base.Start();
-        Random.InitState(seed);
+        Random.InitState(Seed);
         float rand = Random.Range(-10, 11);
 
         // Debug.Log(rand + "random");
@@ -27,6 +31,7 @@ public class KaisaBullet : bullet
     }
     public void Apply(Vector3 start, Vector3 end)
     {
+        
         Vector3 previousPoint = transform.position;
 
         if (time < duration)
@@ -43,18 +48,19 @@ public class KaisaBullet : bullet
         }
         else
         {
-            // Destroy(this.gameObject);
+
             Destruct();
+            
         }
     }
 
     public override void DrawGizmos(Vector3 start, Vector3 target)
     {
 
-        Random.InitState(seed);
+        Random.InitState(Seed);
         float noise = Random.Range(-10, 11);
         Vector3 previousPoint = start;
-        float timeStep = 0.01f; // Adjust for smoother curves
+        float timeStep = 0.01f; // smoother curves
         for (float t = 0; t <= duration; t += timeStep)
         {
             float linearT = t / duration;
@@ -63,7 +69,7 @@ public class KaisaBullet : bullet
 
             Vector3 currentPoint = Vector3.Lerp(start, target, linearT) + new Vector3(0, height,0);
 
-            Gizmos.color = Color.yellow; // Change color if needed
+            Gizmos.color = Color.yellow;
             Gizmos.DrawLine(previousPoint, currentPoint);
 
             previousPoint = currentPoint;

@@ -71,8 +71,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  duration: 1
-  heightY: 6.67
+  duration: 0.55
+  heightY: 5.05
 --- !u!61 &9208907363877684142
 BoxCollider2D:
   m_ObjectHideFlags: 0
