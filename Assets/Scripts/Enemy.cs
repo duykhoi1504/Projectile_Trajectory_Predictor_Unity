@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Trajectory.PJT;
 public class Enemy : MonoBehaviour
 {
     // [SerializeField] private float radius = 1f;

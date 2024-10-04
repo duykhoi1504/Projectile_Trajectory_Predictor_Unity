@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using Trajectory.PJT;
 public class Player : MonoBehaviour
 {
     [Header(" PLayer config")]
@@ -24,15 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] int[] seedPJTArray;
     private void Start()
     {
-        // seedArray = new int[numPJT];
-        // for (int i = 0; i < seedArray.Length; i++)
-        // {
-        //     seedArray[i] = Random.Range(0, 100);
-        // }
         rig = GetComponent<Rigidbody2D>();
-
-
-
     }
 
     private void Update()
@@ -49,19 +41,19 @@ public class Player : MonoBehaviour
         //skill
         if (Input.GetKeyDown(KeyCode.E))
         {
-            currentSkillStat = BulletType.NormalParabol;
+            currentSkillStat = BulletType.NormalBullet;
             StartCoroutine(DelayLine(Bullet1.duration));
             NormalBullet pre = Instantiate(Bullet1, transform.position, transform.rotation) as NormalBullet;
-            pre.init(startPoint.position, tartgetPoint.position);
+            pre.Init(startPoint.position, tartgetPoint.position);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            currentSkillStat = BulletType.KaisaParabol;
+            currentSkillStat = BulletType.KaisaBullet;
             StartCoroutine(DelayLine(Bullet2.duration));
             for (int i = 0; i < seedPJTArray.Length; i++)
             {
                 KaisaBullet pre = Instantiate(Bullet2, transform.position, transform.rotation) as KaisaBullet;
-                pre.init(startPoint.position, tartgetPoint.position);
+                pre.Init(startPoint.position, tartgetPoint.position);
                 pre.Seed = seedPJTArray[i];
 
             }
@@ -79,11 +71,11 @@ public class Player : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (!canDraw) return;
-        if (currentSkillStat == BulletType.NormalParabol)
+        if (currentSkillStat == BulletType.NormalBullet)
         {
             Bullet1.DrawGizmos(this.transform.position, tartgetPoint.position);
         }
-        if (currentSkillStat == BulletType.KaisaParabol)
+        if (currentSkillStat == BulletType.KaisaBullet)
         {
             for (int i = 0; i < seedPJTArray.Length; i++)
             {

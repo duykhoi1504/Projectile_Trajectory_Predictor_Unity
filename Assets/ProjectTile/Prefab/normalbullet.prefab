@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680e6414fb461e44d947b26f351da426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -71,8 +72,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  duration: 0.55
-  heightY: 5.05
+  duration: 1
+  heightY: 2
+  trail: {fileID: 0}
+  sprite: {fileID: 8528946110240651804}
+  col: {fileID: 9208907363877684142}
 --- !u!61 &9208907363877684142
 BoxCollider2D:
   m_ObjectHideFlags: 0

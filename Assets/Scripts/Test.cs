@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Trajectory.PJT;
 public class Test : MonoBehaviour
 {
-    [SerializeField] Transform target;
+    [SerializeField] public Transform target;
     [SerializeField] BulletManager bulletManager;
     private void Start() {
         bulletManager=GetComponent<BulletManager>();
@@ -12,9 +12,9 @@ public class Test : MonoBehaviour
     private void Update() {
 
            if(Input.GetKeyDown(KeyCode.E)) {
-            bulletManager.SpawmBullet(transform.position,target.position,BulletType.NormalParabol);
+            bulletManager.SpawmBullet(transform.position,target.position,BulletType.NormalBullet);
         }    if(Input.GetKeyDown(KeyCode.R)) {
-            bulletManager.SpawmBullet(transform.position,target.position,BulletType.KaisaParabol);
+            bulletManager.SpawmBullet(transform.position,target.position,BulletType.KaisaBullet);
         }
     }
 }
