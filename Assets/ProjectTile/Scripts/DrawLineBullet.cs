@@ -14,7 +14,6 @@ namespace Trajectory.PJT
         [SerializeField] private BulletType currentBulletType;
         [SerializeField] private Vector3? targetPosition;
         public Vector3? TargetPosition { get => targetPosition; set => targetPosition = value; }
-        // [SerializeField] private BulletSO bulletSO;
 
 
 
@@ -26,17 +25,16 @@ namespace Trajectory.PJT
                 startPoint = this.transform;
             }
         }
-        // private void Update()
-        // {
-        //     mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //     mouse.z = 0;
-        // }
+
         IEnumerator DelayLine(float duration)
         {
             canDraw = false;
             yield return new WaitForSeconds(duration);
             canDraw = true;
         }
+
+
+        
         public Bullet GetBulletSlot(BulletType bulletType)
         {
 
@@ -49,6 +47,8 @@ namespace Trajectory.PJT
             }
             return null;
         }
+
+
         private void OnDrawGizmos()
         {
             Vector3 target;
@@ -66,7 +66,7 @@ namespace Trajectory.PJT
             else
             {
                 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                target.z = 0; // Đặt z về 0 nếu cần
+                target.z = 0;
             }
 
             if (startPoint == null) return;

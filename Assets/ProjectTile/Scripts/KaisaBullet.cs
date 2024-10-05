@@ -9,7 +9,8 @@ namespace Trajectory.PJT
 
         private float noiseY;
 
-        [SerializeField] private int seed; // Giá trị seed
+        private System.Random random;
+        [SerializeField] private int seed;
 
         public int Seed { get => seed; set => seed = value; }
 
@@ -17,16 +18,11 @@ namespace Trajectory.PJT
         {
 
             base.Start();
-            Random.InitState(Seed);
-            float rand = Random.Range(-10, 11);
-
-            // Debug.Log(rand + "random");
-            noiseY = rand;
+            InitializeNoise();
         }
 
         protected override void Update()
         {
-
             base.Update();
             Apply(start, target);
         }
@@ -52,19 +48,24 @@ namespace Trajectory.PJT
                 Destruct();
             }
         }
-
+        private void InitializeNoise()
+        {
+       
+            random = new System.Random(seed);
+            noiseY = (float)random.Next(-10, 11);
+        }
         public override void DrawGizmos(Vector3 start, Vector3 target)
         {
 
-            Random.InitState(Seed);
-            float noise = Random.Range(-10, 11);
+            InitializeNoise();
+
             Vector3 previousPoint = start;
-            float timeStep = 0.01f; // smoother curves
+            float timeStep = 0.01f;
             for (float t = 0; t <= duration; t += timeStep)
             {
                 float linearT = t / duration;
                 float heightT = curve.Evaluate(linearT);
-                float height = heightY * heightT * noise;
+                float height = heightY * heightT * noiseY;
 
                 Vector3 currentPoint = Vector3.Lerp(start, target, linearT) + new Vector3(0, height, 0);
 
@@ -77,6 +78,8 @@ namespace Trajectory.PJT
         }
 
     }
+
+
 }
 
 

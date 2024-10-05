@@ -73,8 +73,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   duration: 1
-  heightY: 2
-  trail: {fileID: 0}
+  heightY: 3
+  trail: {fileID: 4645718148045402784}
   sprite: {fileID: 8528946110240651804}
   col: {fileID: 9208907363877684142}
 --- !u!61 &9208907363877684142

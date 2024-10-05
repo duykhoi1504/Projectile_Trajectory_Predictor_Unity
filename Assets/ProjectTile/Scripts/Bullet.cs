@@ -24,6 +24,7 @@ namespace Trajectory.PJT
         [SerializeField] protected AnimationCurve curve;
         [SerializeField] public float duration, heightY;
         protected float time;
+
         [SerializeField] private TrailRenderer trail;
         [SerializeField] private SpriteRenderer sprite;
         [SerializeField] private Collider2D col;
@@ -36,19 +37,20 @@ namespace Trajectory.PJT
         public SpriteRenderer Sprite { get => sprite; set => sprite = value; }
         public Collider2D Col { get => col; set => col = value; }
 
+
+
         public void Init(Vector3 start, Vector3 target)
         {
-            if (start == null && target == null)
-            {
-                start = targetVec3.Value;
-                target = targetVec3.Value;
-            }
-            else
-            {
-                this.start = start;
-                this.target = target;
-            }
+            this.start = start;
+            this.target = target;
         }
+        public void SetUp()
+        {
+            Trail = GetComponentInChildren<TrailRenderer>();
+            Col = GetComponent<Collider2D>();
+            Sprite = GetComponentInChildren<SpriteRenderer>();
+        }
+
         protected virtual void Start()
         {
 
@@ -58,18 +60,9 @@ namespace Trajectory.PJT
 
         }
 
-        protected void ResetBullet()
-        {
-            time = 0;
-            this.transform.position = start;
-            Col.enabled = true;
-            Sprite.enabled = true;
-            // trail.enabled = true;
-        }
+
         protected virtual void Update()
         {
-
-
 
             if (duration <= 0)
             {
@@ -77,21 +70,22 @@ namespace Trajectory.PJT
             }
             if (!Col.enabled) return;
 
-
-      
-
         }
-        public void SetUp()
+
+        //làm mới viên đạn sau khi va cham muc tieu
+        protected void ResetBullet()
         {
-            Trail = GetComponentInChildren<TrailRenderer>();
-            Col = GetComponent<Collider2D>();
-            Sprite = GetComponentInChildren<SpriteRenderer>();
+            time = 0;
+            transform.position = start;
+            Col.enabled = true;
+            Sprite.enabled = true;
         }
+
 
         public virtual void DrawGizmos(Vector3 start, Vector3 target)
         {
             Vector3 previousPoint = start;
-            float timeStep = 0.01f; // Adjust for smoother curves
+            float timeStep = 0.01f;
             for (float t = 0; t <= duration; t += timeStep)
             {
                 float linearT = t / duration;
@@ -100,31 +94,34 @@ namespace Trajectory.PJT
 
                 Vector3 currentPoint = Vector3.Lerp(start, target, linearT) + new Vector3(0, height, 0);
 
-                Gizmos.color = Color.green; // Change color if needed
+                Gizmos.color = Color.green;
                 Gizmos.DrawLine(previousPoint, currentPoint);
 
                 previousPoint = currentPoint;
             }
 
         }
-
+        //mỗi màu bắn ra sẽ là 1 màu trailrenderer khác nhau
         protected void RandomColorTrail()
         {
             color = Random.ColorHSV();
             Trail.startColor = color;
             Trail.endColor = color;
         }
+
         protected void Destruct()
         {
             Debug.Log("BOOM, GET PLAYERIMPACT");
             StartCoroutine(IEDestruct());
         }
+        
+
         private IEnumerator IEDestruct()
         {
             Sprite.enabled = false;
             Col.enabled = false;
             yield return new WaitForSeconds(2f);
-            // trail.enabled = false;
+
             ResetBullet();
             this.gameObject.SetActive(false);
         }
