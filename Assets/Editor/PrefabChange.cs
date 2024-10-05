@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEditor;
-using Trajectory.PJT;
+using Trajectory.Runtime;
 
 [CustomEditor(typeof(Bullet),true)]
 public class PrefabChange : Editor
