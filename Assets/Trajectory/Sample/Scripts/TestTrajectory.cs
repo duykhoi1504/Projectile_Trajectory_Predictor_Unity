@@ -8,6 +8,7 @@ namespace Trajectory.Sample
     {
         [SerializeField] public Transform target;
         [SerializeField] BulletManager bulletManager;
+         [SerializeField] KaisaBullet _kaisaBullet;
         private void Start()
         {
             bulletManager = GetComponent<BulletManager>();
@@ -23,6 +24,13 @@ namespace Trajectory.Sample
             {
                 bulletManager.SpawmBullet(transform.position, target.position, BulletType.KaisaBullet);
             }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                KaisaBullet kaisaBullet=Instantiate(_kaisaBullet,transform.position,Quaternion.identity);
+                kaisaBullet.Init(transform.position,target.position,(a)=>Destroy(a.gameObject));
+            }
         }
+
     }
 }

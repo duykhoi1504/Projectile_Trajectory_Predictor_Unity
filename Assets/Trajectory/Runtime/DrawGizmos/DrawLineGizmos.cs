@@ -1,33 +1,62 @@
-namespace Trajectory.Runtime
+namespace Trajectory.Editor
 {
-
-
     using System.Collections;
     using System.Collections.Generic;
+    using Trajectory.Runtime;
     using UnityEngine;
+    [System.Serializable]
+    public class BulletSlot
+    {
+        public BulletType bulletType;
+        public Bullet bullet;
+    }
+
+    public enum BulletType
+    {
+        NormalBullet,
+        KaisaBullet,
+    }
     public class DrawLineGizmos : MonoBehaviour
     {
-        [SerializeField] public float duration, heightY;
-        [SerializeField] List<BulletSlot> bulletSlots;
+        [SerializeField] private float duration, heightY;
+        [SerializeField] private List<BulletSlot> bulletSlots;
         [SerializeField] private bool canDraw = true;
         [SerializeField] private Transform startPoint;
         [SerializeField] private Transform targetPoint;
         [SerializeField] private BulletType currentBulletType;
         [SerializeField] private Vector3? targetPosition;
-
+        private float previousHeightY;
         public Vector3? TargetPosition { get => targetPosition; set => targetPosition = value; }
 
+        [ContextMenu("ReSetUp")]
+        private void ReSetUp()
+        {
+            Bullet bullet = GetBulletSlot(currentBulletType);
+            duration = bullet.Duration;
+            heightY = bullet.HeightY;
+            previousHeightY = heightY; 
+        }
+        private void CheckChangeValue()
+        {
+            Bullet bullet = GetBulletSlot(currentBulletType);
+            if (bullet != null && bullet.HeightY != previousHeightY)
+            {
+                heightY = bullet.HeightY;
+                previousHeightY = heightY;
+            }
+        }
         private void Start()
         {
-            CheckStart();
+            ReSetUp();
 
         }
 
         private void Update()
         {
             CheckStart();
-        }
+            CheckChangeValue();
 
+        }
         private void CheckStart()
         {
             if (startPoint == null)
@@ -35,16 +64,16 @@ namespace Trajectory.Runtime
                 startPoint = this.transform;
             }
         }
-        IEnumerator DelayLine(float duration)
-        {
-            canDraw = false;
-            yield return new WaitForSeconds(duration);
-            canDraw = true;
-        }
+        // IEnumerator DelayLine(float duration)
+        // {
+        //     canDraw = false;
+        //     yield return new WaitForSeconds(duration);
+        //     canDraw = true;
+        // }
 
 
 
-        public Bullet GetBulletSlot(BulletType bulletType)
+        private Bullet GetBulletSlot(BulletType bulletType)
         {
 
             foreach (BulletSlot slot in bulletSlots)
@@ -60,6 +89,7 @@ namespace Trajectory.Runtime
 
         private void OnDrawGizmos()
         {
+            CheckChangeValue();
             Vector3 target;
             if (!canDraw) return;
 
@@ -92,7 +122,7 @@ namespace Trajectory.Runtime
 
         }
 
-        public void DrawGizmosNormal(Vector3 start, Vector3 target)
+        private void DrawGizmosNormal(Vector3 start, Vector3 target)
         {
             NormalBullet bullet = GetBulletSlot(BulletType.NormalBullet) as NormalBullet;
             Vector3 previousPoint = start;
@@ -112,7 +142,7 @@ namespace Trajectory.Runtime
             }
 
         }
-        public void DrawGizmosKaisa(Vector3 start, Vector3 target)
+        private void DrawGizmosKaisa(Vector3 start, Vector3 target)
         {
             KaisaBullet bullet = GetBulletSlot(BulletType.KaisaBullet) as KaisaBullet;
 

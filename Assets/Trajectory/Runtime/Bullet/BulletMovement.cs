@@ -1,14 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class BulletMovement : MonoBehaviour
+namespace Trajectory.Runtime
 {
-   public void CheckDuration(float duration, Vector3 target)
+
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+
+    public class BulletMovement : MonoBehaviour
     {
-        if (duration <= 0)
+
+        public void CheckDuration(float duration, Vector3 target)
         {
-            this.transform.position = target;
+
+            if (duration <= 0)
+            {
+                this.transform.position = target;
+            }
         }
     }
 }

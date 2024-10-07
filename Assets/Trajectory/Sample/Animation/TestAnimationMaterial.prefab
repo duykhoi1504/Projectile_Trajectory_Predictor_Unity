@@ -93,7 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d033f019c4b0a40a5568cd98c3c5ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  red: {fileID: 6002285040216468427}
 --- !u!212 &6002285040216468427
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114,7 +113,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d5df6917b5461014a827dfc0a7cbd9a6, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

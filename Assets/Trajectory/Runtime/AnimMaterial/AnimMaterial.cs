@@ -6,8 +6,8 @@ namespace Trajectory.Runtime
     using DG.Tweening;
     public class AnimMaterial : MonoBehaviour
     {
-        [SerializeField] private Renderer red;
-        [SerializeField] private MaterialPropertyBlock materialPropertyBlock;
+       private Renderer red;
+    private MaterialPropertyBlock materialPropertyBlock;
 
         void Start()
         {

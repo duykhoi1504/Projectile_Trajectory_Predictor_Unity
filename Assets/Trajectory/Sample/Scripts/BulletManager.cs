@@ -7,12 +7,12 @@ namespace Trajectory.Sample
     using UnityEngine;
     public class BulletManager : MonoBehaviour
     {
-             [SerializeField] List<BulletSlot> bulletSlots;
+        [SerializeField] List<BulletSlot> bulletSlots;
         // [SerializeField] private BulletSO bulletSO;
         // [SerializeField] private bool canDraw = true;
         // [SerializeField] private BulletType currentBulletType;
-  
-     [Header("Pool")]
+
+        [Header("Pool")]
         [SerializeField] List<Bullet> bullets = new List<Bullet>();
 
         public Bullet GetBulletSlot(BulletType bulletType)
@@ -30,8 +30,8 @@ namespace Trajectory.Sample
         {
 
             Bullet bullet = GetBulletInPool(bulletType);
-   
-            bullet.Init(start, end,(a)=>BackToPool(a));
+
+            bullet.Init(start, end, (a) => BackToPool(a));
 
         }
         public Bullet GetBulletInPool(BulletType bulletType)
@@ -41,7 +41,7 @@ namespace Trajectory.Sample
                 if (!obj.gameObject.activeSelf && obj.Type == bulletType)
                 {
                     obj.gameObject.SetActive(true);
-                    
+
                     return obj;
                 }
             }
@@ -50,9 +50,10 @@ namespace Trajectory.Sample
             bullets.Add(newObject);
             return newObject;
         }
-    private void BackToPool(Bullet bullet){
-        bullet.gameObject.SetActive(false);
-    }
+        private void BackToPool(Bullet bullet)
+        {
+            bullet.gameObject.SetActive(false);
+        }
 
     }
 }

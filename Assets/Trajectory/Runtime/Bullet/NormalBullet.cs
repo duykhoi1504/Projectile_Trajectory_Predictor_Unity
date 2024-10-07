@@ -20,7 +20,7 @@ namespace Trajectory.Runtime
             if (time < duration)
             {
                 float linearT = time / duration;
-                float heightT = Curve.Evaluate(linearT);
+                float heightT = curve.Evaluate(linearT);
                 float height = Mathf.Lerp(0f, heightY, heightT);
 
                 transform.position = Vector3.Lerp(start, end, linearT) + new Vector3(0, height, 0);
@@ -30,10 +30,7 @@ namespace Trajectory.Runtime
 
 
             }
-            else
-            {
-                Destruct();
-            }
+
         }
     }
 }

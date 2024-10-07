@@ -9,6 +9,7 @@ namespace Trajectory.Runtime
 
         private float noiseY;
         private System.Random random;
+        [Header("Random Seed")]
         [SerializeField] private int seed;
 
         public int Seed { get => seed; set => seed = value; }
@@ -16,7 +17,6 @@ namespace Trajectory.Runtime
 
         protected override void Start()
         {
-
             base.Start();
             InitializeNoise();
         }
@@ -35,7 +35,7 @@ namespace Trajectory.Runtime
             {
 
                 float linearT = time / duration;
-                float heightT = Curve.Evaluate(linearT);
+                float heightT = curve.Evaluate(linearT);
                 float height = heightT * heightY * NoiseY;
 
                 transform.position = Vector3.Lerp(start, end, linearT) + new Vector3(0, height, 0);
@@ -43,14 +43,11 @@ namespace Trajectory.Runtime
                 Vector3 direction = (transform.position - previousPoint).normalized;
                 transform.up = direction;
             }
-            else
-            {
-                Destruct();
-            }
+   
         }
+        
         public void InitializeNoise()
         {
-       
             random = new System.Random(seed);
             NoiseY = (float)random.Next(-10, 11);
         }
