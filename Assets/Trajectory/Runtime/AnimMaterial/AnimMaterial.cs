@@ -6,24 +6,27 @@ namespace Trajectory.Runtime
     using DG.Tweening;
     public class AnimMaterial : MonoBehaviour
     {
-       private Renderer red;
-    private MaterialPropertyBlock materialPropertyBlock;
+        private Renderer red;
+        private MaterialPropertyBlock materialPropertyBlock;
 
         void Start()
         {
             red = GetComponent<Renderer>();
             materialPropertyBlock = new MaterialPropertyBlock();
+
         }
 
         // Update is called once per frame
+
+
+
         public void ImpactAnim()
         {
-            red.material.EnableKeyword(CONSTANTSHADER.offsetUvYID_ON);
-            red.material.EnableKeyword(CONSTANTSHADER.hitEffectBlendID_ON);
+
+
+
+
             // Tạo hiệu ứng offset Y UV
-
-
-
             DOTween.To(() => GetFloatProperty(CONSTANTSHADER.offsetUvYID),
                        x => SetFloatProperty(CONSTANTSHADER.offsetUvYID, x),
                        -0.08f,
@@ -54,8 +57,8 @@ namespace Trajectory.Runtime
 
         private float GetFloatProperty(int propertyID)
         {
-   
-           //sao chép các thuộc tính hiện tại từ red vào biến materialPropertyBlock
+
+            //sao chép các thuộc tính hiện tại từ red vào biến materialPropertyBlock
             red.GetPropertyBlock(materialPropertyBlock);
 
             return materialPropertyBlock.GetFloat(propertyID);
@@ -69,9 +72,9 @@ namespace Trajectory.Runtime
 
             materialPropertyBlock.SetFloat(propertyID, value);
 
-        // áp dụng các thay đổi đã thực hiện trong materialPropertyBlock lại vào red
+            // áp dụng các thay đổi đã thực hiện trong materialPropertyBlock lại vào red
             red.SetPropertyBlock(materialPropertyBlock);
         }
- 
+
     }
 }

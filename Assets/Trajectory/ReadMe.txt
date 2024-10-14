@@ -14,8 +14,11 @@
             KaisaBullet kaisaBullet=Instantiate(_kaisaBullet,transform.position,Quaternion.identity);
             kaisaBullet.Init(transform.position,target.position,(a)=>Destroy(a.gameObject));
     - xem ví dụ ở Sample/Scripts/TestTrajectory.cs
-• Animation Material
-    ->Điều kiện dùng: phải có sẵn Package AllIn1SpriteShader và Dotween
+• Animation Impact Material
+    ->Điều kiện dùng:
+        * phải có sẵn Package AllIn1SpriteShader và Dotween
+        * Bật Hit Effect, chỉnh Hit Effect Blend về 0
+        *Bật Offset 
     ->cách dùng: thêm component AddAllIn1Shader vào GameObject chứa sprite ảnh -> thêm component AnimMaterial
     -> gọi ra:
         EX:
