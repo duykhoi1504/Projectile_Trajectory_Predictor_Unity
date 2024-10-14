@@ -5,15 +5,17 @@
     -> điều chỉnh Duration,HeightY trại Prefab DrawLine sẽ không ảnh thưởng đến đường bay thật của viên đạn
     -> Curent Bullet Type: lựa chọn loại đạn sẽ vẽ trên scene
     -> để reset lại bản đầu -> chuột phải vào Script "DrawLineGizmos" ->  ReSetup
-    -> xem ví dụ ở Sample/Scenes/TestBullet(scene)
+    -> xem ví dụ ở Sample/Scenes/TestMovement(scene)
 • Bullet 
     - chỉnh duraion và Height trong prefab (Runtime/Bullet/Prefab)
     - NormalBullet bay theo quỹ đạo ném xiên
     - KaisaBullet Bay theo hình xoắn
-    - Ex:   KaisaBullet _kaisaBullet;      
-            KaisaBullet kaisaBullet=Instantiate(_kaisaBullet,transform.position,Quaternion.identity);
-            kaisaBullet.Init(transform.position,target.position,(a)=>Destroy(a.gameObject));
+    - Ex:   NormalMove _normalMove;      
+            NormalMove normalMove=Instantiate(_normalMove,transform.position,Quaternion.identity);
+            normalMove.Init(transform.position,target.position,duraion,height,2,(a)=>Destroy(a.gameObject));
     - xem ví dụ ở Sample/Scripts/TestTrajectory.cs
+• Rotate như bomerang
+    - add component RotationTJT
 • Animation Impact Material
     ->Điều kiện dùng:
         * phải có sẵn Package AllIn1SpriteShader và Dotween

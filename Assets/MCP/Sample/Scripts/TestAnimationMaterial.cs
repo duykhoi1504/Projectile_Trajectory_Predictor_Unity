@@ -1,7 +1,7 @@
-namespace Trajectory.Sample
+namespace MCP.Sample
 {
 using UnityEngine;
-using Trajectory.Runtime;
+using MCP.Runtime;
 public class TestAnimationMaterial : MonoBehaviour
 {
     // [SerializeField] private float radius = 1f;

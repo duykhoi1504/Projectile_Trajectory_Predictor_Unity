@@ -1,17 +1,17 @@
-namespace Trajectory.Runtime
+namespace MCP.Runtime.MCPMove.LogicDest
 {
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Trajectory.Runtime;
-using UnityEngine;
-public class BulletDestruction : MonoBehaviour
+    using MCP.Runtime.MCPMove.LogicMove;
+    using UnityEngine;
+public class DestructionTJT : MonoBehaviour
 {
         private SpriteRenderer[] sprites;
         private TrailRenderer[] trails;
-        private event Action<Bullet> onDestroy;
+        private event Action<EntityMove> onDestroy;
 
-        public void Init(SpriteRenderer[] sprites, TrailRenderer[] trails, Action<Bullet> onDestroy)
+        public void Init(SpriteRenderer[] sprites, TrailRenderer[] trails, Action<EntityMove> onDestroy)
         {
             this.sprites = sprites;
             this.trails = trails;
@@ -19,23 +19,27 @@ public class BulletDestruction : MonoBehaviour
         }
         public void CheckForDestruct(float time,float duration){
             if(time<duration)return;
-            Destruct(GetComponent<Bullet>());
+            Destruct(GetComponent<EntityMove>());
         }
-        private void Destruct(Bullet bullet)
+        private void Destruct(EntityMove bullet)
         {
         
             StartCoroutine(IEDestruct(bullet));
         }
 
-        private IEnumerator IEDestruct(Bullet bullet)
+        private IEnumerator IEDestruct(EntityMove bullet)
         {
+            TrailRenderer trail=trails[0];
+            float time=trail.time;
+            
             foreach (var sprite in sprites)
             {
                 sprite.enabled = false;
             }
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(time);
+      
             onDestroy?.Invoke(bullet);
-            onDestroy=null;
+            // onDestroy=null;
 
         }
 }

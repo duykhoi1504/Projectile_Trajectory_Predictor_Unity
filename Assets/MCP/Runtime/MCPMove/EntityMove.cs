@@ -1,65 +1,76 @@
 
-namespace Trajectory.Runtime
+namespace MCP.Runtime.MCPMove.LogicMove
 {
     using UnityEngine;
     using System.Collections;
     using Random = UnityEngine.Random;
     using System;
+    using MCP.Runtime.MCPMove.LogicDest;
+    using MCP.Runtime.MCPMove.LogicRota;
 
     [System.Serializable]
-    public class BulletSlot
+    public class MoveTypeSlot
     {
-        public BulletType bulletType;
-        public Bullet bullet;
+        public MoveType bulletType;
+        public EntityMove bullet;
     }
 
-    public enum BulletType
+    public enum MoveType
     {
-        NormalBullet,
-        KaisaBullet,
+        NormalMove,
+        BezierMove,
     }
 
-    [RequireComponent(typeof(BulletMovement),typeof(BulletDestruction))]
-    public abstract class Bullet : MonoBehaviour
+    [RequireComponent(typeof(MovementTJT), typeof(DestructionTJT)),]
+    public abstract class EntityMove : MonoBehaviour
     {
-        [SerializeField] private BulletType type;
+        [SerializeField] private MoveType type;
         private Color color;
         protected float time;
         protected Vector3 start, target;
         [SerializeField] protected AnimationCurve curve;
-        [SerializeField] protected float heightY,duration;
+        [SerializeField] protected float heightY, duration;
 
         [SerializeField] private TrailRenderer[] trails;
         [SerializeField] private SpriteRenderer[] sprites;
 
-        [SerializeField] private BulletMovement bulletMovement;
-        [SerializeField] private BulletDestruction bulletDestruction;
+        [SerializeField] private MovementTJT movement;
+        [SerializeField] private DestructionTJT destruction;
+     
+
+
         [SerializeField]
-        protected event Action<Bullet> onDestroy;
-        public BulletType Type { get => type;  }
-        public AnimationCurve Curve { get => curve;  }
-        public float Duration { get => duration;  }
+        protected event Action<EntityMove> onDestroy;
+
+
+
+        public MoveType Type { get => type; }
+        public AnimationCurve Curve { get => curve; }
+        public float Duration { get => duration; }
         public float HeightY { get => heightY; }
 
-        public void Init(Vector3 start, Vector3 target,float duration,float height, Action<Bullet> onDestroy)
+        public void Init(Vector3 start, Vector3 target, float duration, float height, Action<EntityMove> onDestroy)
         {
             this.start = start;
             this.target = target;
             this.onDestroy += onDestroy;
-            this.duration=duration;
-            this.heightY=height;
+            this.duration = duration;
+            this.heightY = height;
         }
 
         [ContextMenu("SetUp")]
         public void SetUp()
         {
-            bulletMovement = GetComponent<BulletMovement>();
-           bulletDestruction = GetComponent<BulletDestruction>();
+            movement = GetComponent<MovementTJT>();
+            destruction = GetComponent<DestructionTJT>();
+    
+
 
             trails = GetComponentsInChildren<TrailRenderer>();
             sprites = GetComponentsInChildren<SpriteRenderer>();
-            
-            bulletDestruction.Init(sprites,trails,onDestroy);
+            destruction.Init(sprites, trails, onDestroy);
+ 
+
         }
         private void OnEnable()
         {
@@ -68,27 +79,31 @@ namespace Trajectory.Runtime
         protected virtual void Start()
         {
             SetUp();
-            time = 0;
+            // time = 0;
+            ResetBullet();
             RandomColorTrail();
 
         }
         protected virtual void Update()
         {
-            bulletMovement.CheckDuration(duration, target);
-            bulletDestruction.CheckForDestruct(time,duration);
+            movement.CheckDuration(duration, target);
+            destruction.CheckForDestruct(time, duration);
+      
         }
 
         private void ResetBullet()
         {
             time = 0;
+
+
             foreach (var trail in trails)
             {
-                transform.position = start;
 
-                trail.Clear(); // Xóa toàn bộ trail
                 trail.enabled = false;
+                trail.Clear(); // Xóa toàn bộ trail
 
             }
+            transform.position = start;
             foreach (var sprite in sprites)
             {
                 sprite.enabled = false;
@@ -101,6 +116,7 @@ namespace Trajectory.Runtime
         private IEnumerator EnableTrailAndSprite()
         {
             yield return null; // Đợi 1 frame
+  
             foreach (var trail in trails)
             {
                 trail.enabled = true; // Bật lại trail

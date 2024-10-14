@@ -1,5 +1,5 @@
 
-namespace Trajectory.Runtime
+namespace MCP.Runtime
 {
 
     using UnityEngine;

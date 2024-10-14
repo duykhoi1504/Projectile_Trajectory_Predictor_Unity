@@ -1,13 +1,12 @@
-namespace Trajectory.Runtime
+namespace MCP.Runtime.MCPMove.LogicMove
 {
 
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class BulletMovement : MonoBehaviour
+    public class MovementTJT : MonoBehaviour
     {
-
         public void CheckDuration(float duration, Vector3 target)
         {
 

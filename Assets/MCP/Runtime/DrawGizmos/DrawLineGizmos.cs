@@ -1,29 +1,29 @@
-namespace Trajectory.Editor
+namespace MCP.Editor
 {
     using System.Collections;
     using System.Collections.Generic;
-    using Trajectory.Runtime;
+    using MCP.Runtime.MCPMove.LogicMove;
     using UnityEngine;
-    [System.Serializable]
-    public class BulletSlot
-    {
-        public BulletType bulletType;
-        public Bullet bullet;
-    }
+    // [System.Serializable]
+    // public class BulletSlot
+    // {
+    //     public BulletType bulletType;
+    //     public EntityMove bullet;
+    // }
 
-    public enum BulletType
-    {
-        NormalBullet,
-        KaisaBullet,
-    }
+    // public enum BulletType
+    // {
+    //     NormalBullet,
+    //     KaisaBullet,
+    // }
     public class DrawLineGizmos : MonoBehaviour
     {
         [SerializeField] private float duration, heightY;
-        [SerializeField] private List<BulletSlot> bulletSlots;
+        [SerializeField] private List<MoveTypeSlot> moveTypeSlot;
         [SerializeField] private bool canDraw = true;
         [SerializeField] private Transform startPoint;
         [SerializeField] private Transform targetPoint;
-        [SerializeField] private BulletType currentBulletType;
+        [SerializeField] private MoveType currentMoveType;
         [SerializeField] private Vector3? targetPosition;
         private float previousHeightY;
         public Vector3? TargetPosition { get => targetPosition; set => targetPosition = value; }
@@ -31,14 +31,14 @@ namespace Trajectory.Editor
         [ContextMenu("ReSetUp")]
         private void ReSetUp()
         {
-            Bullet bullet = GetBulletSlot(currentBulletType);
+            EntityMove bullet = GetBulletSlot(currentMoveType);
             duration = bullet.Duration;
             heightY = bullet.HeightY;
             previousHeightY = heightY; 
         }
         private void CheckChangeValue()
         {
-            Bullet bullet = GetBulletSlot(currentBulletType);
+            EntityMove bullet = GetBulletSlot(currentMoveType);
             if (bullet != null && bullet.HeightY != previousHeightY)
             {
                 heightY = bullet.HeightY;
@@ -73,10 +73,10 @@ namespace Trajectory.Editor
 
 
 
-        private Bullet GetBulletSlot(BulletType bulletType)
+        private EntityMove GetBulletSlot(MoveType bulletType)
         {
 
-            foreach (BulletSlot slot in bulletSlots)
+            foreach (MoveTypeSlot slot in moveTypeSlot)
             {
                 if (slot.bulletType == bulletType)
                 {
@@ -110,12 +110,12 @@ namespace Trajectory.Editor
 
             if (startPoint == null) return;
 
-            switch (currentBulletType)
+            switch (currentMoveType)
             {
-                case BulletType.NormalBullet:
+                case MoveType.NormalMove:
                     DrawGizmosNormal(startPoint.position, target);
                     break;
-                case BulletType.KaisaBullet:
+                case MoveType.BezierMove:
                     DrawGizmosKaisa(startPoint.position, target);
                     break;
             }
@@ -124,7 +124,7 @@ namespace Trajectory.Editor
 
         private void DrawGizmosNormal(Vector3 start, Vector3 target)
         {
-            NormalBullet bullet = GetBulletSlot(BulletType.NormalBullet) as NormalBullet;
+            NormalMove bullet = GetBulletSlot(MoveType.NormalMove) as NormalMove;
             Vector3 previousPoint = start;
             float timeStep = 0.01f;
             for (float t = 0; t <= duration; t += timeStep)
@@ -144,7 +144,7 @@ namespace Trajectory.Editor
         }
         private void DrawGizmosKaisa(Vector3 start, Vector3 target)
         {
-            KaisaBullet bullet = GetBulletSlot(BulletType.KaisaBullet) as KaisaBullet;
+            BezierMove bullet = GetBulletSlot(MoveType.BezierMove) as BezierMove;
 
             bullet.InitializeNoise();
 

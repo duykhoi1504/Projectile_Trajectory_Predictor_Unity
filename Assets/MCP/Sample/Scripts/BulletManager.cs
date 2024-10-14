@@ -1,23 +1,23 @@
-namespace Trajectory.Sample
+namespace MCP.Sample
 {
     using System.Collections;
     using System.Collections.Generic;
-    using Trajectory.Runtime;
+    using MCP.Runtime.MCPMove.LogicMove;
     using Unity.VisualScripting;
     using UnityEngine;
     public class BulletManager : MonoBehaviour
     {
-        [SerializeField] List<BulletSlot> bulletSlots;
+        [SerializeField] List<MoveTypeSlot> bulletSlots;
         // [SerializeField] private BulletSO bulletSO;
         // [SerializeField] private bool canDraw = true;
         // [SerializeField] private BulletType currentBulletType;
 
         [Header("Pool")]
-        [SerializeField] List<Bullet> bullets = new List<Bullet>();
+        [SerializeField] List<EntityMove> bullets = new List<EntityMove>();
 
-        public Bullet GetBulletSlot(BulletType bulletType)
+        public EntityMove GetBulletSlot(MoveType bulletType)
         {
-            foreach (BulletSlot slot in bulletSlots)
+            foreach (MoveTypeSlot slot in bulletSlots)
             {
                 if (slot.bulletType == bulletType)
                 {
@@ -26,17 +26,17 @@ namespace Trajectory.Sample
             }
             return null;
         }
-        public void SpawmBullet(Vector3 start, Vector3 end, BulletType bulletType)
+        public void SpawmBullet(Vector3 start, Vector3 end, MoveType bulletType)
         {
 
-            Bullet bullet = GetBulletInPool(bulletType);
+            EntityMove bullet = GetBulletInPool(bulletType);
 
-            bullet.Init(start, end,2,2, (a) => BackToPool(a));
+            bullet.Init(start, end,1f,10, (a) => BackToPool(a));
 
         }
-        public Bullet GetBulletInPool(BulletType bulletType)
+        public EntityMove GetBulletInPool(MoveType bulletType)
         {
-            foreach (Bullet obj in bullets)
+            foreach (EntityMove obj in bullets)
             {
                 if (!obj.gameObject.activeSelf && obj.Type == bulletType)
                 {
@@ -46,11 +46,11 @@ namespace Trajectory.Sample
                 }
             }
 
-            Bullet newObject = Instantiate(GetBulletSlot(bulletType), transform.position, Quaternion.identity);
+            EntityMove newObject = Instantiate(GetBulletSlot(bulletType), transform.position, Quaternion.identity);
             bullets.Add(newObject);
             return newObject;
         }
-        private void BackToPool(Bullet bullet)
+        private void BackToPool(EntityMove bullet)
         {
             bullet.gameObject.SetActive(false);
         }

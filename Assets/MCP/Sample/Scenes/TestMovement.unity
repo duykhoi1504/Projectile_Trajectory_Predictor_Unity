@@ -1038,7 +1038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
       propertyPath: heightY
-      value: 4.76
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
       propertyPath: duration
@@ -1053,7 +1053,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 990901707}
     - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
+      propertyPath: currentMoveType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
       propertyPath: currentBulletType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
+      propertyPath: moveTypeSlot.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
+      propertyPath: moveTypeSlot.Array.data[0].bullet
+      value: 
+      objectReference: {fileID: 544762132442675466, guid: 45ee3e782c4633340862cd1ebb912a87, type: 3}
+    - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
+      propertyPath: moveTypeSlot.Array.data[1].bullet
+      value: 
+      objectReference: {fileID: -6589337348021792829, guid: c85a5d1012ecad244995ac41eff91ffd, type: 3}
+    - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
+      propertyPath: moveTypeSlot.Array.data[1].bulletType
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

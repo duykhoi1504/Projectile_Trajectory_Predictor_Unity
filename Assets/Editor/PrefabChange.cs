@@ -1,24 +1,25 @@
-using UnityEngine;
-using UnityEditor;
-using Trajectory.Runtime;
+// using UnityEngine;
+// using UnityEditor;
 
-[CustomEditor(typeof(Bullet),true)]
-public class PrefabChange : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
+// using Trajectory.Runtime.MCPMove.Logic.Move;
 
-        if (GUILayout.Button("Setup"))
-        {
-            SetupComponents();
-        }
-    }
+// [CustomEditor(typeof(Bullet),true)]
+// public class PrefabChange : Editor
+// {
+//     public override void OnInspectorGUI()
+//     {
+//         DrawDefaultInspector();
 
-    private void SetupComponents()
-    {
-       Bullet bullet = (Bullet)target;        
-       bullet.SetUp();
+//         if (GUILayout.Button("Setup"))
+//         {
+//             SetupComponents();
+//         }
+//     }
 
-    }
-}
+//     private void SetupComponents()
+//     {
+//        Bullet bullet = (Bullet)target;        
+//        bullet.SetUp();
+
+//     }
+// }

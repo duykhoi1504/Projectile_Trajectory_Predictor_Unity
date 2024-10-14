@@ -1,10 +1,10 @@
 
-namespace Trajectory.Runtime
+namespace MCP.Runtime.MCPMove.LogicMove
 {
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    public class KaisaBullet : Bullet
+    public class BezierMove : EntityMove
     {
 
         private float noiseY;
@@ -12,8 +12,8 @@ namespace Trajectory.Runtime
         [Header("Random Seed")]
         [SerializeField] private int seed;
 
-        public int Seed { get => seed; set => seed = value; }
-        public float NoiseY { get => noiseY; set => noiseY = value; }
+        // public int Seed { get => seed; set => seed = value; }
+        public float NoiseY { get => noiseY; }
 
         protected override void Start()
         {
@@ -29,7 +29,7 @@ namespace Trajectory.Runtime
         private void Apply(Vector3 start, Vector3 end)
         {
 
-            Vector3 previousPoint = transform.position;
+            // Vector3 previousPoint = transform.position;
             time += Time.deltaTime;
             if (time < duration)
             {
@@ -40,16 +40,20 @@ namespace Trajectory.Runtime
 
                 transform.position = Vector3.Lerp(start, end, linearT) + new Vector3(0, height, 0);
 
-                Vector3 direction = (transform.position - previousPoint).normalized;
-                transform.up = direction;
+                // Vector3 direction = (transform.position - previousPoint).normalized;
+                // if (!bulletRotation)
+                // {
+                //     transform.up = direction;
+                // }
+
             }
-   
+
         }
-        
+
         public void InitializeNoise()
         {
             random = new System.Random(seed);
-            NoiseY = (float)random.Next(-10, 11);
+            noiseY = (float)random.Next(-10, 11);
         }
 
 
