@@ -31,7 +31,7 @@ namespace Trajectory.Sample
 
             Bullet bullet = GetBulletInPool(bulletType);
 
-            bullet.Init(start, end, (a) => BackToPool(a));
+            bullet.Init(start, end,2,2, (a) => BackToPool(a));
 
         }
         public Bullet GetBulletInPool(BulletType bulletType)

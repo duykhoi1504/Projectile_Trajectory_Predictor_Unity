@@ -13,7 +13,7 @@ namespace Trajectory.Runtime
 
 
         }
-        public void Apply(Vector3 start, Vector3 end)
+        private void Apply(Vector3 start, Vector3 end)
         {
             Vector3 previousPoint = transform.position;
             time += Time.deltaTime;

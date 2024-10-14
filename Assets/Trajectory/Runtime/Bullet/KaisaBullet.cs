@@ -26,7 +26,7 @@ namespace Trajectory.Runtime
             base.Update();
             Apply(start, target);
         }
-        public void Apply(Vector3 start, Vector3 end)
+        private void Apply(Vector3 start, Vector3 end)
         {
 
             Vector3 previousPoint = transform.position;

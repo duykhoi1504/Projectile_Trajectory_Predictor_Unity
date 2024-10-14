@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3803ccca3cf2d84b8dccbdeee9a7483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
   curve:
     serializedVersion: 2
     m_Curve:
@@ -235,8 +235,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  heightY: 3
-  duration: 1
+  heightY: 3.08
+  duration: 1.51
   trails:
   - {fileID: 6855827156258786797}
   sprites:

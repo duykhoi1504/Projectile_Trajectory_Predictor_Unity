@@ -36,16 +36,18 @@ namespace Trajectory.Runtime
         [SerializeField] private BulletDestruction bulletDestruction;
         [SerializeField]
         protected event Action<Bullet> onDestroy;
-        public BulletType Type { get => type; set => type = value; }
-        public AnimationCurve Curve { get => curve; set => curve = value; }
-        public float Duration { get => duration; set => duration = value; }
-        public float HeightY { get => heightY; set => heightY = value; }
+        public BulletType Type { get => type;  }
+        public AnimationCurve Curve { get => curve;  }
+        public float Duration { get => duration;  }
+        public float HeightY { get => heightY; }
 
-        public void Init(Vector3 start, Vector3 target, Action<Bullet> onDestroy)
+        public void Init(Vector3 start, Vector3 target,float duration,float height, Action<Bullet> onDestroy)
         {
             this.start = start;
             this.target = target;
             this.onDestroy += onDestroy;
+            this.duration=duration;
+            this.heightY=height;
         }
 
         [ContextMenu("SetUp")]

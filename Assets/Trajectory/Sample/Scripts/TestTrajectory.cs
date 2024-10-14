@@ -28,7 +28,7 @@ namespace Trajectory.Sample
             if (Input.GetKeyDown(KeyCode.T))
             {
                 KaisaBullet kaisaBullet=Instantiate(_kaisaBullet,transform.position,Quaternion.identity);
-                kaisaBullet.Init(transform.position,target.position,(a)=>Destroy(a.gameObject));
+                kaisaBullet.Init(transform.position,target.position,2,2,(a)=>Destroy(a.gameObject));
             }
         }
 

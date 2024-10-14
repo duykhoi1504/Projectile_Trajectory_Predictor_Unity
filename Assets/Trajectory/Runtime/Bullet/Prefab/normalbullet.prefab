@@ -105,7 +105,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  heightY: 8.72
+  heightY: 8.18
   duration: 1
   trails:
   - {fileID: 4645718148045402784}
