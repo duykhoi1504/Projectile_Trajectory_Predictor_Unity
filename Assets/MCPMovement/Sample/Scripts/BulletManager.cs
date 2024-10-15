@@ -1,16 +1,13 @@
-namespace MCP.Sample
+namespace MCPMovement.Sample
 {
     using System.Collections;
     using System.Collections.Generic;
-    using MCP.Runtime.MCPMove.LogicMove;
+    using MCPMovement.Runtime.MCPMove.LogicMove;
     using Unity.VisualScripting;
     using UnityEngine;
     public class BulletManager : MonoBehaviour
     {
         [SerializeField] List<MoveTypeSlot> bulletSlots;
-        // [SerializeField] private BulletSO bulletSO;
-        // [SerializeField] private bool canDraw = true;
-        // [SerializeField] private BulletType currentBulletType;
 
         [Header("Pool")]
         [SerializeField] List<EntityMove> bullets = new List<EntityMove>();
@@ -31,7 +28,7 @@ namespace MCP.Sample
 
             EntityMove bullet = GetBulletInPool(bulletType);
 
-            bullet.Init(start, end,1f,10, (a) => BackToPool(a));
+            bullet.Init(start, end,1f, (a) => BackToPool(a));
 
         }
         public EntityMove GetBulletInPool(MoveType bulletType)

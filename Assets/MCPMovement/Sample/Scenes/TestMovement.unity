@@ -893,7 +893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 990901707}
   bulletManager: {fileID: 1952465368}
-  _kaisaBullet: {fileID: -6589337348021792829, guid: c85a5d1012ecad244995ac41eff91ffd, type: 3}
+  _kaisaBullet: {fileID: 7940704613608615376, guid: 45ee3e782c4633340862cd1ebb912a87, type: 3}
 --- !u!114 &1952465368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -908,7 +908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSlots:
   - bulletType: 0
-    bullet: {fileID: 544762132442675466, guid: 45ee3e782c4633340862cd1ebb912a87, type: 3}
+    bullet: {fileID: 7940704613608615376, guid: 45ee3e782c4633340862cd1ebb912a87, type: 3}
   - bulletType: 1
     bullet: {fileID: -6589337348021792829, guid: c85a5d1012ecad244995ac41eff91ffd, type: 3}
   bullets: []
@@ -1067,7 +1067,7 @@ PrefabInstance:
     - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
       propertyPath: moveTypeSlot.Array.data[0].bullet
       value: 
-      objectReference: {fileID: 544762132442675466, guid: 45ee3e782c4633340862cd1ebb912a87, type: 3}
+      objectReference: {fileID: 7940704613608615376, guid: 45ee3e782c4633340862cd1ebb912a87, type: 3}
     - target: {fileID: 6222799948147306851, guid: c647fac50b511bf40b8832a26655d512, type: 3}
       propertyPath: moveTypeSlot.Array.data[1].bullet
       value: 

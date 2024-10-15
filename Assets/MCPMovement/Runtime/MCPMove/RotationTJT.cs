@@ -1,5 +1,5 @@
 
-namespace MCP.Runtime.MCPMove.LogicRota
+namespace MCPMovement.Runtime.MCPMove.LogicRota
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -9,6 +9,7 @@ namespace MCP.Runtime.MCPMove.LogicRota
     {
     
         [SerializeField] private Vector3 dirRotate;
+        
         public void Init(Vector3 dirRotate)
         {
         

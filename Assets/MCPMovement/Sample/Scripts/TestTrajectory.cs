@@ -1,15 +1,15 @@
-namespace MCP.Sample
+namespace MCPMovement.Sample
 {
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using MCP.Runtime.MCPMove.LogicMove;
+    using MCPMovement.Runtime.MCPMove.LogicMove;
 
     public class TestTrajectory : MonoBehaviour
     {
         [SerializeField] public Transform target;
         [SerializeField] BulletManager bulletManager;
-         [SerializeField] BezierMove _kaisaBullet;
+         [SerializeField] NormalMove _kaisaBullet;
         private void Start()
         {
             bulletManager = GetComponent<BulletManager>();
@@ -28,8 +28,9 @@ namespace MCP.Sample
 
             if (Input.GetKeyDown(KeyCode.T))
             {
-                BezierMove kaisaBullet=Instantiate(_kaisaBullet,transform.position,Quaternion.identity);
-                kaisaBullet.Init(transform.position,target.position,2,2,(a)=>Destroy(a.gameObject));
+                NormalMove kaisaBullet=Instantiate(_kaisaBullet,transform.position,Quaternion.identity);
+                kaisaBullet.Init(transform.position,target.position,2,(a)=>Destroy(a.gameObject));
+                // kaisaBullet.SetActiveHead(false);
             }
         }
 

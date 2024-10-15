@@ -1,12 +1,13 @@
 
-namespace MCP.Runtime.MCPMove.LogicMove
+namespace MCPMovement.Runtime.MCPMove.LogicMove
 {
     using UnityEngine;
     using System.Collections;
     using Random = UnityEngine.Random;
     using System;
-    using MCP.Runtime.MCPMove.LogicDest;
-    using MCP.Runtime.MCPMove.LogicRota;
+    using MCPMovement.Runtime.MCPMove.LogicDest;
+    using MCPMovement.Runtime.MCPMove.LogicRota;
+    using Unity.VisualScripting;
 
     [System.Serializable]
     public class MoveTypeSlot
@@ -33,13 +34,11 @@ namespace MCP.Runtime.MCPMove.LogicMove
 
         [SerializeField] private TrailRenderer[] trails;
         [SerializeField] private SpriteRenderer[] sprites;
+        [SerializeField] private Transform headHolder;
+        [SerializeField] private Transform trailHolder;
 
         [SerializeField] private MovementTJT movement;
         [SerializeField] private DestructionTJT destruction;
-     
-
-
-        [SerializeField]
         protected event Action<EntityMove> onDestroy;
 
 
@@ -49,28 +48,49 @@ namespace MCP.Runtime.MCPMove.LogicMove
         public float Duration { get => duration; }
         public float HeightY { get => heightY; }
 
-        public void Init(Vector3 start, Vector3 target, float duration, float height, Action<EntityMove> onDestroy)
+        public void Init(Vector3 start, Vector3 target, float duration, Action<EntityMove> onDestroy)
         {
             this.start = start;
             this.target = target;
             this.onDestroy += onDestroy;
             this.duration = duration;
-            this.heightY = height;
         }
 
         [ContextMenu("SetUp")]
         public void SetUp()
         {
+            if (headHolder.gameObject.activeSelf)
+            {
+               sprites = headHolder.GetComponentsInChildren<SpriteRenderer>();
+            }
+            if (trailHolder.gameObject.activeSelf)
+            {
+                
+                 trails = trailHolder.GetComponentsInChildren<TrailRenderer>();
+            }
+
+
             movement = GetComponent<MovementTJT>();
             destruction = GetComponent<DestructionTJT>();
-    
-
-
-            trails = GetComponentsInChildren<TrailRenderer>();
-            sprites = GetComponentsInChildren<SpriteRenderer>();
             destruction.Init(sprites, trails, onDestroy);
- 
 
+
+        }
+
+        public void SetActiveHead(bool isActive)
+        {
+            if (headHolder != null)
+            {
+                headHolder.gameObject.SetActive(isActive);
+            }
+        }
+
+        public void SetActiveTrail(bool isActive)
+        {
+            if (trailHolder != null)
+            {
+                trailHolder.gameObject.SetActive(isActive);
+            }
         }
         private void OnEnable()
         {
@@ -79,6 +99,7 @@ namespace MCP.Runtime.MCPMove.LogicMove
         protected virtual void Start()
         {
             SetUp();
+
             // time = 0;
             ResetBullet();
             RandomColorTrail();
@@ -88,25 +109,29 @@ namespace MCP.Runtime.MCPMove.LogicMove
         {
             movement.CheckDuration(duration, target);
             destruction.CheckForDestruct(time, duration);
-      
+
         }
 
         private void ResetBullet()
         {
             time = 0;
 
-
             foreach (var trail in trails)
             {
 
-                trail.enabled = false;
-                trail.Clear(); // Xóa toàn bộ trail
-
+                if (trail != null) // Kiểm tra null trước khi gọi phương thức
+                {
+                    trail.enabled = false;
+                    trail.Clear(); // Xóa toàn bộ trail
+                }
             }
             transform.position = start;
             foreach (var sprite in sprites)
             {
-                sprite.enabled = false;
+                if (sprite != null) // Kiểm tra null trước khi gọi phương thức
+                {
+                    sprite.enabled = false;
+                }
             }
 
             // Đợi 1 frame trước khi bật lại
@@ -116,14 +141,20 @@ namespace MCP.Runtime.MCPMove.LogicMove
         private IEnumerator EnableTrailAndSprite()
         {
             yield return null; // Đợi 1 frame
-  
+
             foreach (var trail in trails)
             {
-                trail.enabled = true; // Bật lại trail
+                if (trail != null)
+                {
+                    trail.enabled = true; // Bật lại trail
+                }
             }
             foreach (var sprite in sprites)
             {
-                sprite.enabled = true;
+                if (sprite != null) // Kiểm tra null trước khi gọi phương thức
+                {
+                    sprite.enabled = true;
+                }
             }
         }
         //mỗi màu bắn ra sẽ là 1 màu trailrenderer khác nhau
@@ -132,8 +163,12 @@ namespace MCP.Runtime.MCPMove.LogicMove
             color = Random.ColorHSV();
             foreach (var trail in trails)
             {
-                trail.startColor = color;
-                trail.endColor = color;
+
+                if (trail != null) // Kiểm tra null trước khi gọi phương thức
+                {
+                    trail.startColor = color;
+                    trail.endColor = color;
+                }
             }
         }
     }

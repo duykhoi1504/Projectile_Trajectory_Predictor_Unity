@@ -1,8 +1,8 @@
-namespace MCP.Editor
+namespace MCPMovement.Editor
 {
     using System.Collections;
     using System.Collections.Generic;
-    using MCP.Runtime.MCPMove.LogicMove;
+    using MCPMovement.Runtime.MCPMove.LogicMove;
     using UnityEngine;
     // [System.Serializable]
     // public class BulletSlot

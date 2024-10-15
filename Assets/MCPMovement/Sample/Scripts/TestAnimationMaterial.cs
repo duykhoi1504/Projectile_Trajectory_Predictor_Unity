@@ -1,7 +1,7 @@
-namespace MCP.Sample
+namespace MCPMovement.Sample
 {
 using UnityEngine;
-using MCP.Runtime;
+using MCPMovement.Runtime;
 public class TestAnimationMaterial : MonoBehaviour
 {
     // [SerializeField] private float radius = 1f;

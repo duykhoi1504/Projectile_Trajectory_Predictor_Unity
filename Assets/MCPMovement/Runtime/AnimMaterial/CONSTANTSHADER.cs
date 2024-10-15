@@ -1,5 +1,5 @@
 
-namespace MCP.Runtime
+namespace MCPMovement.Runtime
 {
 
     using System.Collections;

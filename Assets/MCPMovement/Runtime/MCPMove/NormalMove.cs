@@ -1,4 +1,4 @@
-namespace MCP.Runtime.MCPMove.LogicMove
+namespace MCPMovement.Runtime.MCPMove.LogicMove
 {
     using System.Collections;
     using System.Collections.Generic;
