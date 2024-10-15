@@ -3,11 +3,11 @@ namespace MCPMovement.Sample
     using System.Collections;
     using System.Collections.Generic;
     using MCPMovement.Runtime.MCPMove.LogicMove;
-    using Unity.VisualScripting;
     using UnityEngine;
     public class BulletManager : MonoBehaviour
     {
         [SerializeField] List<MoveTypeSlot> bulletSlots;
+        [SerializeField] private float duration;
 
         [Header("Pool")]
         [SerializeField] List<EntityMove> bullets = new List<EntityMove>();
@@ -28,8 +28,8 @@ namespace MCPMovement.Sample
 
             EntityMove bullet = GetBulletInPool(bulletType);
 
-            bullet.Init(start, end,1f, (a) => BackToPool(a));
-
+            bullet.Init(start, end,duration, (a) => BackToPool(a));
+            
         }
         public EntityMove GetBulletInPool(MoveType bulletType)
         {

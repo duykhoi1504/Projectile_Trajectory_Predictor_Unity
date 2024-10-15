@@ -16,6 +16,10 @@
     - xem ví dụ ở Sample/Scripts/TestTrajectory.cs
 • Rotate như bomerang
     - add component RotationTJT sẽ giúp object xoay
+
+• bật tắt trail và head
+    SetActiveHead(true);
+    SetActiveTrail(true);
 • Animation Impact Material
     ->Điều kiện dùng:
         * phải có sẵn Package AllIn1SpriteShader và Dotween

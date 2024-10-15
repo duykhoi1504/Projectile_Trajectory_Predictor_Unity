@@ -4,7 +4,6 @@ using UnityEngine;
 using MCPMovement.Runtime;
 public class TestAnimationMaterial : MonoBehaviour
 {
-    // [SerializeField] private float radius = 1f;
     [SerializeField] private bool isImpact = false;
      [SerializeField] private AnimMaterial enemyAnim;
 

@@ -3,11 +3,10 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
 {
     using UnityEngine;
     using System.Collections;
-    using Random = UnityEngine.Random;
     using System;
-    using MCPMovement.Runtime.MCPMove.LogicDest;
-    using MCPMovement.Runtime.MCPMove.LogicRota;
-    using Unity.VisualScripting;
+    using MCPMovement.Runtime.MCPMove.LogicDestruction;
+    using System.Collections.Generic;
+    using MCPMovement.Runtime.MCPMove.LogicTrigger;
 
     [System.Serializable]
     public class MoveTypeSlot
@@ -22,27 +21,41 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         BezierMove,
     }
 
-    [RequireComponent(typeof(MovementTJT), typeof(DestructionTJT)),]
+    [RequireComponent(typeof(MovementTJT), typeof(DestructionTJT),typeof(TriggerTJT)),]
     public abstract class EntityMove : MonoBehaviour
     {
+        #region Element
         [SerializeField] private MoveType type;
-        private Color color;
+        [SerializeField] protected AnimationCurve curve;
         protected float time;
         protected Vector3 start, target;
-        [SerializeField] protected AnimationCurve curve;
-        [SerializeField] protected float heightY, duration;
+        [SerializeField] protected float heightY;
+        protected float duration;
 
-        [SerializeField] private TrailRenderer[] trails;
-        [SerializeField] private SpriteRenderer[] sprites;
+
+        private List<TrailRenderer> trails;
+        private List<SpriteRenderer> sprites;
         [SerializeField] private Transform headHolder;
         [SerializeField] private Transform trailHolder;
+        [SerializeField] private Transform triggerHolder;
 
-        [SerializeField] private MovementTJT movement;
-        [SerializeField] private DestructionTJT destruction;
+
+        #endregion
+
+        #region Component
+        private MovementTJT movement;
+        private DestructionTJT destruction;
+        private TriggerTJT triggerTJT;
+        #endregion
+
+
+        #region Event
         private event Action<EntityMove> onDestroy;
 
+        #endregion
 
 
+        #region Getter Setter
         public MoveType Type { get => type; }
         public AnimationCurve Curve { get => curve; }
         public float Duration { get => duration; }
@@ -55,26 +68,121 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
             this.onDestroy += onDestroy;
             this.duration = duration;
         }
+        #endregion
 
         [ContextMenu("SetUp")]
         public void SetUp()
         {
-            if (headHolder.gameObject.activeSelf)
+            if (headHolder != null && headHolder.gameObject.activeSelf)
             {
-               sprites = headHolder.GetComponentsInChildren<SpriteRenderer>();
-            }
-            if (trailHolder.gameObject.activeSelf)
-            {
-                
-                 trails = trailHolder.GetComponentsInChildren<TrailRenderer>();
+
+                if (headHolder.childCount > 0)
+                    sprites = new List<SpriteRenderer>();
+
+                foreach (Transform child in headHolder)
+                {
+
+                    SpriteRenderer sprite = child.GetComponent<SpriteRenderer>();
+                    if (sprite != null)
+                    {
+                        sprites.Add(sprite);
+                    }
+                }
+
             }
 
 
+            if (trailHolder != null && trailHolder.gameObject.activeSelf)
+            {
+                if (trailHolder.childCount > 0)
+                    trails = new List<TrailRenderer>();
+
+
+                foreach (Transform child in trailHolder)
+                {
+
+                    TrailRenderer trail = child.GetComponent<TrailRenderer>();
+                    if (trail != null)
+                    {
+                        trails.Add(trail);
+                    }
+                }
+
+
+            }
+            triggerTJT = GetComponent<TriggerTJT>();
             movement = GetComponent<MovementTJT>();
             destruction = GetComponent<DestructionTJT>();
-            destruction.Init(sprites, trails, onDestroy);
+
+            triggerTJT.Init(triggerHolder);
+            destruction.Init(sprites, trails, headHolder, trailHolder, onDestroy);
+        }
 
 
+        private void OnEnable()
+        {
+            ResetBullet();
+        }
+        protected virtual void Start()
+        {
+            SetUp();
+
+            ResetBullet();
+
+        }
+        protected virtual void Update()
+        {
+            movement.CheckDuration(duration, target);
+            destruction.CheckForDestruct(time, duration);
+            triggerTJT.CheckForHit(time, duration);
+
+        }
+
+        private void ResetBullet()
+        {
+            time = 0;
+            SetActiveParent(triggerHolder, false);
+            if (trails != null)
+            {
+                foreach (var trail in trails)
+                {
+
+                    if (trail != null) // Kiểm tra null trước khi gọi phương thức
+                    {
+                        trail.enabled = false;
+                        trail.Clear(); // Xóa toàn bộ trail
+                    }
+                }
+            }
+            transform.position = start;
+            SetActiveParent(headHolder, false);
+
+
+            // Đợi 1 frame trước khi bật lại
+            StartCoroutine(EnableTrailAndSprite());
+        }
+        private void SetActiveParent(Transform parent, bool isActive)
+        {
+            if (parent != null)
+            {
+                parent.gameObject.SetActive(isActive);
+            }
+        }
+        private IEnumerator EnableTrailAndSprite()
+        {
+            yield return null; // Đợi 1 frame
+
+            if (trails != null)
+            {
+                foreach (var trail in trails)
+                {
+                    if (trail != null)
+                    {
+                        trail.enabled = true; // Bật lại trail
+                    }
+                }
+            }
+            SetActiveParent(headHolder, true);
         }
 
         public void SetActiveHead(bool isActive)
@@ -92,83 +200,11 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
                 trailHolder.gameObject.SetActive(isActive);
             }
         }
-        private void OnEnable()
+        public void SetActiceHit(bool isActive)
         {
-            ResetBullet();
-        }
-        protected virtual void Start()
-        {
-            SetUp();
-
-            // time = 0;
-            ResetBullet();
-            RandomColorTrail();
-
-        }
-        protected virtual void Update()
-        {
-            movement.CheckDuration(duration, target);
-            destruction.CheckForDestruct(time, duration);
-
-        }
-
-        private void ResetBullet()
-        {
-            time = 0;
-
-            foreach (var trail in trails)
+            if (triggerHolder != null)
             {
-
-                if (trail != null) // Kiểm tra null trước khi gọi phương thức
-                {
-                    trail.enabled = false;
-                    trail.Clear(); // Xóa toàn bộ trail
-                }
-            }
-            transform.position = start;
-            foreach (var sprite in sprites)
-            {
-                if (sprite != null) // Kiểm tra null trước khi gọi phương thức
-                {
-                    sprite.enabled = false;
-                }
-            }
-
-            // Đợi 1 frame trước khi bật lại
-            StartCoroutine(EnableTrailAndSprite());
-        }
-
-        private IEnumerator EnableTrailAndSprite()
-        {
-            yield return null; // Đợi 1 frame
-
-            foreach (var trail in trails)
-            {
-                if (trail != null)
-                {
-                    trail.enabled = true; // Bật lại trail
-                }
-            }
-            foreach (var sprite in sprites)
-            {
-                if (sprite != null) // Kiểm tra null trước khi gọi phương thức
-                {
-                    sprite.enabled = true;
-                }
-            }
-        }
-        //mỗi màu bắn ra sẽ là 1 màu trailrenderer khác nhau
-        protected void RandomColorTrail()
-        {
-            color = Random.ColorHSV();
-            foreach (var trail in trails)
-            {
-
-                if (trail != null) // Kiểm tra null trước khi gọi phương thức
-                {
-                    trail.startColor = color;
-                    trail.endColor = color;
-                }
+                triggerTJT.SetActiveHit(isActive);
             }
         }
     }

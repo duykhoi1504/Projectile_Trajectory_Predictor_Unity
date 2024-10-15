@@ -1,10 +1,8 @@
 
-namespace MCPMovement.Runtime.MCPMove.LogicRota
+namespace MCPMovement.Runtime.MCPMove.LogicRotation
 {
-    using System.Collections;
-    using System.Collections.Generic;
+    
     using UnityEngine;
-
     public class RotationTJT : MonoBehaviour
     {
     
@@ -20,5 +18,8 @@ namespace MCPMovement.Runtime.MCPMove.LogicRota
             this.transform.Rotate(dirRotate * Time.deltaTime);
         }
 
+
+
     }
+  
 }
