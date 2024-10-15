@@ -64,15 +64,6 @@ namespace MCP.Editor
                 startPoint = this.transform;
             }
         }
-        // IEnumerator DelayLine(float duration)
-        // {
-        //     canDraw = false;
-        //     yield return new WaitForSeconds(duration);
-        //     canDraw = true;
-        // }
-
-
-
         private EntityMove GetBulletSlot(MoveType bulletType)
         {
 

@@ -29,7 +29,7 @@ namespace MCP.Runtime.MCPMove.LogicMove
         private void Apply(Vector3 start, Vector3 end)
         {
 
-            // Vector3 previousPoint = transform.position;
+  
             time += Time.deltaTime;
             if (time < duration)
             {
@@ -39,12 +39,6 @@ namespace MCP.Runtime.MCPMove.LogicMove
                 float height = heightT * heightY * NoiseY;
 
                 transform.position = Vector3.Lerp(start, end, linearT) + new Vector3(0, height, 0);
-
-                // Vector3 direction = (transform.position - previousPoint).normalized;
-                // if (!bulletRotation)
-                // {
-                //     transform.up = direction;
-                // }
 
             }
 

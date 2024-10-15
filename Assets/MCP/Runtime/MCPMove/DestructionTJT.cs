@@ -3,8 +3,8 @@ namespace MCP.Runtime.MCPMove.LogicDest
 using System;
 using System.Collections;
 using System.Collections.Generic;
-    using MCP.Runtime.MCPMove.LogicMove;
-    using UnityEngine;
+using MCP.Runtime.MCPMove.LogicMove;
+using UnityEngine;
 public class DestructionTJT : MonoBehaviour
 {
         private SpriteRenderer[] sprites;

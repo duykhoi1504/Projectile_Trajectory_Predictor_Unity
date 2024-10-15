@@ -8,14 +8,14 @@
     -> xem ví dụ ở Sample/Scenes/TestMovement(scene)
 • Bullet 
     - chỉnh duraion và Height trong prefab (Runtime/Bullet/Prefab)
-    - NormalBullet bay theo quỹ đạo ném xiên
-    - KaisaBullet Bay theo hình xoắn
+    - NormalMove bay theo quỹ đạo ném xiên
+    - BezierMove Bay theo hình xoắn
     - Ex:   NormalMove _normalMove;      
             NormalMove normalMove=Instantiate(_normalMove,transform.position,Quaternion.identity);
             normalMove.Init(transform.position,target.position,duraion,height,2,(a)=>Destroy(a.gameObject));
     - xem ví dụ ở Sample/Scripts/TestTrajectory.cs
 • Rotate như bomerang
-    - add component RotationTJT
+    - add component RotationTJT sẽ giúp object xoay
 • Animation Impact Material
     ->Điều kiện dùng:
         * phải có sẵn Package AllIn1SpriteShader và Dotween
