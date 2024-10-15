@@ -39,7 +39,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
 
         [SerializeField] private MovementTJT movement;
         [SerializeField] private DestructionTJT destruction;
-        protected event Action<EntityMove> onDestroy;
+        private event Action<EntityMove> onDestroy;
 
 
 
