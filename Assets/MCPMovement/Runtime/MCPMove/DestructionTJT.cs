@@ -21,18 +21,14 @@ namespace MCPMovement.Runtime.MCPMove.LogicDestruction
         private float duration;
         public float DefaultTime { get => defaultTime; }
 
-
-
-        public void SetUp(Transform headHolder, Transform trailHolder, Action<EntityMove> onDestroy)
+        public void Init(Transform headHolder, Transform trailHolder, Action<EntityMove> onDestroy, float totalTime)
         {
             this.onDestroy = onDestroy;
             this.headHolder = headHolder;
             this.trailHolder = trailHolder;
-        }
-        public void Init(float totalTime)
-        {
             this.duration = totalTime;
         }
+
         public void OnUpdate(float time)
         {
             if (time > duration)

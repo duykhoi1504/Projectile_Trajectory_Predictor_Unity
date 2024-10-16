@@ -15,14 +15,12 @@ namespace MCPMovement.Runtime.MCPMove.LogicTrigger
         public float TimeDelayHit { get => timeDelayHit; }
         public bool CanTrigger { get => canTrigger; }
 
-        public void SetUp(Transform triggerHolder)
+        public void Init(Transform triggerHolder, float duration)
         {
             this.triggerHolder = triggerHolder;
-    
-        }
-        public void Init(float duration){
             this.duration = duration;
         }
+ 
         private void OnEnable()
         {
             ResetHit();

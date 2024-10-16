@@ -10,7 +10,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
     using MCPMovement.Runtime.MCPMove.LogicElement;
     using System.Linq;
 
-    [System.Serializable]
+    [Serializable]
     public class MoveTypeSlot
     {
         public MoveType bulletType;
@@ -35,29 +35,30 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         protected float duration;
         float totalTime;
 
-        [SerializeField] private List<TrailRenderer> trails;
-        private List<SpriteRenderer> sprites;
         [SerializeField] private Transform headHolder;
         [SerializeField] private Transform trailHolder;
         [SerializeField] private Transform triggerHolder;
 
+        //Element
+        [SerializeField] private List<TrailRenderer> trails;
+        private List<SpriteRenderer> sprites;
 
         #endregion
 
         #region Component
         [SerializeField] private MovementTJT movement;
         [SerializeField] private DestructionTJT destructTJT;
+
+        //1
         [SerializeField] private HitTriggerTJT hitTriggerTJT;
         [SerializeField] private ElementTJT elementTJT;
 
         #endregion
 
-
         #region Event
         private event Action<EntityMove> onDestroy;
 
         #endregion
-
 
         #region Getter Setter
         public MoveType Type { get => type; }
@@ -65,44 +66,11 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         public float Duration { get => duration; }
         public float HeightY { get => heightY; }
 
-        public void Init(Vector3 start, Vector3 target, float duration, Action<EntityMove> onDestroy)
-        {
-            this.start = start;
-            this.target = target;
-            this.duration = duration;
-            this.onDestroy += onDestroy;
+        private bool inited = false;
 
-            ////////tính maxtime của element////////
-            List<float> maxTimeList = new List<float>();
-            if (trails != null)
-            {
-                foreach (TrailRenderer trail in trails)
-                {
-                    if (trail != null)
-                    {
+        public List<ILifeTime> lifeTimes;
 
-                        maxTimeList.Add(trail.time);
-                    }
-
-                }
-            }
-            maxTimeList.Add(hitTriggerTJT.TimeDelayHit);
-
-            maxTimeList.Add(destructTJT.DefaultTime);
-
-
-
-            float maxTimeElement = maxTimeList.Max();
-
-            totalTime = maxTimeElement + duration;
-
-            /////////////////////////////////////////////
-            hitTriggerTJT.Init(duration);
-            destructTJT.Init(totalTime);
-            elementTJT.Init(duration);
-        }
-        #endregion
-
+        //Editor
         [ContextMenu("SetUp")]
         public void SetUp()
         {
@@ -117,10 +85,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
                         sprites.Add(sprite);
                     }
                 }
-
-
             }
-
             if (trailHolder.childCount > 0 && trailHolder != null && trailHolder.gameObject.activeSelf)
             {
                 trails = new List<TrailRenderer>();
@@ -134,25 +99,47 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
                 }
             }
 
-            // movement = GetComponent<MovementTJT>();
-            // hitTriggerTJT=GetComponent<HitTriggerTJT>();
-            hitTriggerTJT.SetUp(triggerHolder);
-            destructTJT.SetUp(headHolder, trailHolder, onDestroy);
-            elementTJT.SetUp(headHolder, trailHolder, trails, sprites);
+            lifeTimes = GetComponentsInChildren<ILifeTime>(true).ToList();
         }
 
-
-        // private void OnEnable()
-        // {
-        //     ResetBullet();
-        // }
-        protected virtual void Start()
+        public void Init(Vector3 start, Vector3 target, float duration, Action<EntityMove> onDestroy)
         {
-            SetUp();
             ResetBullet();
 
+            this.start = start;
+            this.target = target;
+            this.duration = duration;
+            this.onDestroy += onDestroy;
+
+            List<float> maxTimeList = new();
+            lifeTimes.ForEach(t => maxTimeList.Add(t.Time));
+            totalTime = maxTimeList.Max() + duration;
+
+            hitTriggerTJT.Init(triggerHolder, duration);
+            destructTJT.Init(headHolder, trailHolder, onDestroy, totalTime);
+            elementTJT.Init(headHolder, trailHolder, trails, sprites, duration);
+
+            inited = true;
         }
-        protected virtual void Update()
+
+        private void ResetBullet()
+        {
+            inited = false;
+            time = 0;
+            SetActiveParent(triggerHolder, false);
+            elementTJT.ResetElement(start);
+        }
+        #endregion
+
+        private void Update()
+        {
+            if (inited == false)
+                return;
+
+            OnUpdate();
+        }
+
+        protected virtual void OnUpdate()
         {
             time += Time.deltaTime;
             movement.OnUpdate(duration, target);
@@ -161,13 +148,6 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
             elementTJT.OnUpdate(time);
         }
 
-        public void ResetBullet()
-        {
-            time = 0;
-            SetActiveParent(triggerHolder, false);
-            elementTJT.ResetElement(start);
-
-        }
         private void SetActiveParent(Transform parent, bool isActive)
         {
             if (parent != null)
@@ -175,6 +155,9 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
                 parent.gameObject.SetActive(isActive);
             }
         }
+
+
+        #region TEST
 
         public void SetActiveHead(bool isActive)
         {
@@ -198,6 +181,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
                 hitTriggerTJT.SetActiveHit(isActive);
             }
         }
+        #endregion
     }
 
 }
