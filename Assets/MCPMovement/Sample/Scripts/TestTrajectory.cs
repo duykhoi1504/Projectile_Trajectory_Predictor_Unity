@@ -31,16 +31,11 @@ namespace MCPMovement.Sample
             {
                 NormalMove kaisaBullet=Instantiate(_kaisaBullet,transform.position,Quaternion.identity);
                 kaisaBullet.Init(transform.position,target.position,4,(a)=>Destroy(a.gameObject));
-                // StartCoroutine(wait(kaisaBullet));
+        
             }
             
         }
 
-        // IEnumerator wait(NormalMove kaisaBullet){
-        //     yield return new WaitForSeconds(2f);
-        //     kaisaBullet.SetActiceHit(true);
-        //     yield return new WaitForSeconds(1f);
-        //     kaisaBullet.SetActiceHit(false);
-        // }
+
     }
 }

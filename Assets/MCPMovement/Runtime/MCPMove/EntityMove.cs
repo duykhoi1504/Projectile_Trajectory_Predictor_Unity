@@ -7,6 +7,8 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
     using MCPMovement.Runtime.MCPMove.LogicDestruction;
     using System.Collections.Generic;
     using MCPMovement.Runtime.MCPMove.LogicTrigger;
+    using MCPMovement.Runtime.MCPMove.LogicElement;
+    using System.Linq;
 
     [System.Serializable]
     public class MoveTypeSlot
@@ -21,7 +23,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         BezierMove,
     }
 
-    [RequireComponent(typeof(MovementTJT), typeof(DestructionTJT),typeof(TriggerTJT)),]
+    [RequireComponent(typeof(MovementTJT), typeof(DestructionTJT), typeof(HitTriggerTJT)),]
     public abstract class EntityMove : MonoBehaviour
     {
         #region Element
@@ -31,9 +33,9 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         protected Vector3 start, target;
         [SerializeField] protected float heightY;
         protected float duration;
+        float totalTime;
 
-
-        private List<TrailRenderer> trails;
+        [SerializeField] private List<TrailRenderer> trails;
         private List<SpriteRenderer> sprites;
         [SerializeField] private Transform headHolder;
         [SerializeField] private Transform trailHolder;
@@ -43,9 +45,11 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         #endregion
 
         #region Component
-        private MovementTJT movement;
-        private DestructionTJT destruction;
-        private TriggerTJT triggerTJT;
+        [SerializeField] private MovementTJT movement;
+        [SerializeField] private DestructionTJT destructTJT;
+        [SerializeField] private HitTriggerTJT hitTriggerTJT;
+        [SerializeField] private ElementTJT elementTJT;
+
         #endregion
 
 
@@ -65,23 +69,48 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         {
             this.start = start;
             this.target = target;
-            this.onDestroy += onDestroy;
             this.duration = duration;
+            this.onDestroy += onDestroy;
+
+            ////////tính maxtime của element////////
+            List<float> maxTimeList = new List<float>();
+            if (trails != null)
+            {
+                foreach (TrailRenderer trail in trails)
+                {
+                    if (trail != null)
+                    {
+
+                        maxTimeList.Add(trail.time);
+                    }
+
+                }
+            }
+            maxTimeList.Add(hitTriggerTJT.TimeDelayHit);
+
+            maxTimeList.Add(destructTJT.DefaultTime);
+
+
+
+            float maxTimeElement = maxTimeList.Max();
+
+            totalTime = maxTimeElement + duration;
+
+            /////////////////////////////////////////////
+            hitTriggerTJT.Init(duration);
+            destructTJT.Init(totalTime);
+            elementTJT.Init(duration);
         }
         #endregion
 
         [ContextMenu("SetUp")]
         public void SetUp()
         {
-            if (headHolder != null && headHolder.gameObject.activeSelf)
+            if (headHolder.childCount > 0 && headHolder != null && headHolder.gameObject.activeSelf)
             {
-
-                if (headHolder.childCount > 0)
-                    sprites = new List<SpriteRenderer>();
-
+                sprites = new List<SpriteRenderer>();
                 foreach (Transform child in headHolder)
                 {
-
                     SpriteRenderer sprite = child.GetComponent<SpriteRenderer>();
                     if (sprite != null)
                     {
@@ -89,77 +118,55 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
                     }
                 }
 
+
             }
 
-
-            if (trailHolder != null && trailHolder.gameObject.activeSelf)
+            if (trailHolder.childCount > 0 && trailHolder != null && trailHolder.gameObject.activeSelf)
             {
-                if (trailHolder.childCount > 0)
-                    trails = new List<TrailRenderer>();
-
-
+                trails = new List<TrailRenderer>();
                 foreach (Transform child in trailHolder)
                 {
-
                     TrailRenderer trail = child.GetComponent<TrailRenderer>();
                     if (trail != null)
                     {
                         trails.Add(trail);
                     }
                 }
-
-
             }
-            triggerTJT = GetComponent<TriggerTJT>();
-            movement = GetComponent<MovementTJT>();
-            destruction = GetComponent<DestructionTJT>();
 
-            triggerTJT.Init(triggerHolder);
-            destruction.Init(sprites, trails, headHolder, trailHolder, onDestroy);
+            // movement = GetComponent<MovementTJT>();
+            // hitTriggerTJT=GetComponent<HitTriggerTJT>();
+            hitTriggerTJT.SetUp(triggerHolder);
+            destructTJT.SetUp(headHolder, trailHolder, onDestroy);
+            elementTJT.SetUp(headHolder, trailHolder, trails, sprites);
         }
 
 
-        private void OnEnable()
-        {
-            ResetBullet();
-        }
+        // private void OnEnable()
+        // {
+        //     ResetBullet();
+        // }
         protected virtual void Start()
         {
             SetUp();
-
             ResetBullet();
 
         }
         protected virtual void Update()
         {
-            movement.CheckDuration(duration, target);
-            destruction.CheckForDestruct(time, duration);
-            triggerTJT.CheckForHit(time, duration);
-
+            time += Time.deltaTime;
+            movement.OnUpdate(duration, target);
+            destructTJT.OnUpdate(time);
+            hitTriggerTJT.OnUpdate(time);
+            elementTJT.OnUpdate(time);
         }
 
-        private void ResetBullet()
+        public void ResetBullet()
         {
             time = 0;
             SetActiveParent(triggerHolder, false);
-            if (trails != null)
-            {
-                foreach (var trail in trails)
-                {
+            elementTJT.ResetElement(start);
 
-                    if (trail != null) // Kiểm tra null trước khi gọi phương thức
-                    {
-                        trail.enabled = false;
-                        trail.Clear(); // Xóa toàn bộ trail
-                    }
-                }
-            }
-            transform.position = start;
-            SetActiveParent(headHolder, false);
-
-
-            // Đợi 1 frame trước khi bật lại
-            StartCoroutine(EnableTrailAndSprite());
         }
         private void SetActiveParent(Transform parent, bool isActive)
         {
@@ -167,22 +174,6 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
             {
                 parent.gameObject.SetActive(isActive);
             }
-        }
-        private IEnumerator EnableTrailAndSprite()
-        {
-            yield return null; // Đợi 1 frame
-
-            if (trails != null)
-            {
-                foreach (var trail in trails)
-                {
-                    if (trail != null)
-                    {
-                        trail.enabled = true; // Bật lại trail
-                    }
-                }
-            }
-            SetActiveParent(headHolder, true);
         }
 
         public void SetActiveHead(bool isActive)
@@ -204,7 +195,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         {
             if (triggerHolder != null)
             {
-                triggerTJT.SetActiveHit(isActive);
+                hitTriggerTJT.SetActiveHit(isActive);
             }
         }
     }

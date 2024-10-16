@@ -9,12 +9,13 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         protected override void Update()
         {
             base.Update();
+            
             Apply(start, target);
         }
         private void Apply(Vector3 start, Vector3 end)
         {
        
-            time += Time.deltaTime;
+            // time += Time.deltaTime;
             if (time < duration)
             {
                 float linearT = time / duration;

@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.02, y: 1.55, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2070814078153872088}
@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 4200141056331887747}
   - component: {fileID: 8751847926906707416}
   - component: {fileID: 5598888541886909068}
+  - component: {fileID: 3792049011152608560}
   m_Layer: 0
   m_Name: normalMove
   m_TagString: Untagged
@@ -167,7 +168,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.24723972, y: 0.3324833, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2070814078153872088}
@@ -213,12 +214,15 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   heightY: 10
+  trails:
+  - {fileID: 6521828918650012645}
   headHolder: {fileID: 2070814078153872088}
   trailHolder: {fileID: 1132806827848139000}
   triggerHolder: {fileID: 4792225292088501678}
   movement: {fileID: 4200141056331887747}
-  destruction: {fileID: 8751847926906707416}
-  triggerTJT: {fileID: 0}
+  destructTJT: {fileID: 8751847926906707416}
+  hitTriggerTJT: {fileID: 5598888541886909068}
+  elementTJT: {fileID: 3792049011152608560}
 --- !u!114 &4200141056331887747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,8 +260,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0901754eb2c0cec49aad4e25a651e726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeDelayHit: 5
+  timeDelayHit: 1
   canTrigger: 1
+--- !u!114 &3792049011152608560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127852070659242306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eae53ef15a045499cc32dde5538309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3356559014964809278
 GameObject:
   m_ObjectHideFlags: 0
@@ -10200,7 +10216,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.5
+  m_Time: 4
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3

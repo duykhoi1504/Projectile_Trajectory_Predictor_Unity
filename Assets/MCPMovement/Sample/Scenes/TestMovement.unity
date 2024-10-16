@@ -911,7 +911,7 @@ MonoBehaviour:
     bullet: {fileID: 7940704613608615376, guid: 45ee3e782c4633340862cd1ebb912a87, type: 3}
   - bulletType: 1
     bullet: {fileID: -6589337348021792829, guid: c85a5d1012ecad244995ac41eff91ffd, type: 3}
-  duration: 1
+  duration: 2
   bullets: []
 --- !u!212 &1952465369
 SpriteRenderer:

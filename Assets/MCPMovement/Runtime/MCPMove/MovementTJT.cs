@@ -7,7 +7,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
 
     public class MovementTJT : MonoBehaviour
     {
-        public void CheckDuration(float duration, Vector3 target)
+        public void OnUpdate(float duration, Vector3 target)
         {
 
             if (duration <= 0)

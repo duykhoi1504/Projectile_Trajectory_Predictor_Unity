@@ -12,6 +12,7 @@ namespace MCPMovement.Sample
         [Header("Pool")]
         [SerializeField] List<EntityMove> bullets = new List<EntityMove>();
 
+
         public EntityMove GetBulletSlot(MoveType bulletType)
         {
             foreach (MoveTypeSlot slot in bulletSlots)
@@ -27,8 +28,9 @@ namespace MCPMovement.Sample
         {
 
             EntityMove bullet = GetBulletInPool(bulletType);
-
+            
             bullet.Init(start, end,duration, (a) => BackToPool(a));
+            bullet.ResetBullet();
             
         }
         public EntityMove GetBulletInPool(MoveType bulletType)

@@ -30,7 +30,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         {
 
   
-            time += Time.deltaTime;
+            // time += Time.deltaTime;
             if (time < duration)
             {
 
