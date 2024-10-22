@@ -6,15 +6,11 @@ public class TrailLifeTime : MonoBehaviour, ILifeTime
 {
     [SerializeField] TrailRenderer trailRenderer;
 
-    private float time;
 
-    void Awake()
-    {
-        time = trailRenderer.time;
-    }
 
-    public float Time 
-    {   get => time; 
-        set => time = value; 
-    }
+  public float Time 
+{ 
+    get => trailRenderer.time; 
+    set => trailRenderer.time = value; 
+}
 }

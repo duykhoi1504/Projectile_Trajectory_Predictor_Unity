@@ -9,6 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 482175414436610305}
+  - component: {fileID: 6112165192399953150}
+  - component: {fileID: 5814420189694248683}
+  - component: {fileID: 8336210628624943686}
+  - component: {fileID: 3362172667532173097}
+  - component: {fileID: 6222997125708964949}
   m_Layer: 0
   m_Name: HeadHolder
   m_TagString: Untagged
@@ -32,6 +37,70 @@ Transform:
   - {fileID: 2210403153766237322}
   m_Father: {fileID: 3445332788986439117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6112165192399953150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728521861779802209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd4b95437bfad75449baf603ed4c76f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trailRenderer: {fileID: 7058203308477079019}
+--- !u!114 &5814420189694248683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728521861779802209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3eaf2c8c0cd0154f80b45f10ede606d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 153918446922054991}
+--- !u!114 &8336210628624943686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728521861779802209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bafb26bf1813b448fcede4a9d4d6c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: 5
+--- !u!114 &3362172667532173097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728521861779802209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86445ca56a0a5949abf693839004a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitTriggerTJT: {fileID: 2154819642771592399}
+--- !u!114 &6222997125708964949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728521861779802209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3adc5fada9f43a74587ad71d95366418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2433331064403974985
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,8 +374,7 @@ GameObject:
   - component: {fileID: -6589337348021792829}
   - component: {fileID: 6049891801703391321}
   - component: {fileID: 1209394424684300546}
-  - component: {fileID: 4694861636789655902}
-  - component: {fileID: 5284211364014515266}
+  - component: {fileID: 2154819642771592399}
   m_Layer: 0
   m_Name: BezierMove
   m_TagString: Untagged
@@ -323,7 +391,7 @@ Transform:
   m_GameObject: {fileID: 4815529295683988888}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31887, y: 32986, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -388,15 +456,15 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   heightY: 5
-  trails:
-  - {fileID: 7058203308477079019}
-  headHolder: {fileID: 482175414436610305}
-  trailHolder: {fileID: 6269685929083073842}
-  triggerHolder: {fileID: 0}
+  maxTimeList:
+  - 0.5
+  - 1
+  - 5
+  - 1
+  - 1
   movement: {fileID: 6049891801703391321}
   destructTJT: {fileID: 1209394424684300546}
-  triggerTJT: {fileID: 4694861636789655902}
-  elementTJT: {fileID: 5284211364014515266}
+  elementTriggerTJT: {fileID: 2154819642771592399}
   seed: 90
 --- !u!114 &6049891801703391321
 MonoBehaviour:
@@ -423,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultTime: 2
---- !u!114 &4694861636789655902
+--- !u!114 &2154819642771592399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -432,23 +500,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4815529295683988888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0901754eb2c0cec49aad4e25a651e726, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b40d7ee01fec614ba34db1559e7c493, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  headHolder: {fileID: 482175414436610305}
+  trailHolder: {fileID: 6269685929083073842}
+  triggerHolder: {fileID: 6425849412308682218}
   timeDelayHit: 1
   canTrigger: 1
---- !u!114 &5284211364014515266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815529295683988888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41eae53ef15a045499cc32dde5538309, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5592034613367510576
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +581,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6186243935400582061}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 4
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -596,8 +655,8 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 0.5
+      minMaxState: 0
+      scalar: 1
       minScalar: 0.2
       maxCurve:
         serializedVersion: 2

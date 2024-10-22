@@ -25,6 +25,7 @@ namespace MCPMovement.Runtime.MCPMove.LogicMove
         private void Apply(Vector3 start, Vector3 end)
         {
             // time += Time.deltaTime;
+             InitializeNoise();
             if (time < duration)
             {
                 float linearT = time / duration;

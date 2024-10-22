@@ -4,18 +4,7 @@ namespace MCPMovement.Editor
     using System.Collections.Generic;
     using MCPMovement.Runtime.MCPMove.LogicMove;
     using UnityEngine;
-    // [System.Serializable]
-    // public class BulletSlot
-    // {
-    //     public BulletType bulletType;
-    //     public EntityMove bullet;
-    // }
 
-    // public enum BulletType
-    // {
-    //     NormalBullet,
-    //     KaisaBullet,
-    // }
     public class DrawLineGizmos : MonoBehaviour
     {
         [SerializeField] private float duration, heightY;
